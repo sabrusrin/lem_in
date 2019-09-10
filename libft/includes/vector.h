@@ -14,7 +14,25 @@
 # define VECTOR_H
 
 #include "libft.h"
-
+// Functions:
+//
+//    vector::max_size - Returns maximum number of elements vector could
+//                       hold.
+//
+//    vector::capacity - Returns number of elements for which memory has
+//                       been allocated.
+//
+//    vector::size - Returns number of elements in the vector.
+//
+//    vector::resize - Reallocates memory for vector, preserves its
+//                     contents if new size is larger than existing size.
+//
+//    vector::reserve - Allocates elements for vector to ensure a minimum
+//                      size, preserving its contents if the new size is
+//                      larger than existing size.
+//
+//    vector::push_back - Appends (inserts) an element to the end of a
+//                        vector, allocating memory for it if necessary.
 typedef struct	s_vec
 {
 	void	*data;

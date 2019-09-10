@@ -15,10 +15,12 @@
 void	ft_vpush_back(t_vec *v, void *val, size_t val_sz)
 {
 	void	*tmp;
+	size_t	new_sz;
 
+	new_sz = v->count * v->type_sz + val_sz;
 	if (v && val)
 	{
-		if (size <)
+		if (size < new_sz)
 		ft_memmove(v->data + (v->count * v->type_sz), val, val_sz);
 
 	}
