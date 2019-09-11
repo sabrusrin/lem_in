@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vdel.c                                          :+:      :+:    :+:   */
+/*   ft_vclear.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/10 17:08:15 by chermist          #+#    #+#             */
-/*   Updated: 2019/09/11 15:37:04 by chermist         ###   ########.fr       */
+/*   Created: 2019/09/11 14:06:00 by chermist          #+#    #+#             */
+/*   Updated: 2019/09/11 14:27:48 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.h"
 
-void	ft_vdel(t_vec **v)
+void	ft_vclear(t_vec *v)
 {
-	if (v && *v)
+	if (v)
 	{
-		ft_memdel(&(*v)->data);
-		ft_memdel((void**)v);
+		if (v->data)
+			ft_memdel(&v->data);
+		v->size = 0;
+		v->capacity = 0;
 	}
 }

@@ -6,11 +6,11 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/08 19:51:46 by chermist          #+#    #+#             */
-/*   Updated: 2019/09/10 17:43:42 by chermist         ###   ########.fr       */
+/*   Updated: 2019/09/11 15:23:25 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	"vector.h"
+#include "vector.h"
 
 t_vec	*ft_vnew(size_t size, size_t type_sz)
 {
