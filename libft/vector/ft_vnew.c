@@ -20,8 +20,8 @@ t_vec	*ft_vnew(size_t size, size_t type_sz)
 	if (size && type_sz && (v = (t_vec*)malloc(sizeof(t_vec))))
 	{
 		v->type_sz = type_sz;
-		v->capacity = 0;
-		v->size = size;
+		v->capacity = size;
+		v->size = 0;
 		if (!(v->data = malloc(size * type_sz)))
 			ft_memdel((void**)&v);
 	}

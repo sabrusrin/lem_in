@@ -16,11 +16,11 @@ void	ft_vresize(t_vec *v, size_t size)
 {
 	if (v && size)	
 	{
-		if ((v->data = ft_realloc(&(v->data), v->capacity, size)))
+		if ((v->data = ft_realloc(&(v->data), v->capacity * v->type_sz, size)))
 		{
-			v->capacity = size;
-			if (v->capacity < v->size * v->type_sz)
-				v->size = v->capacity / v->type_sz;
+			v->capacity = size / v->type_sz;
+	//		if (v->capacity < v->size * v->type_sz)
+	//			v->size = v->capacity / v->type_sz;
 		}
 	}
 }
