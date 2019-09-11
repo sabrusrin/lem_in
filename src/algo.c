@@ -6,8 +6,15 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:29 by chermist          #+#    #+#             */
-/*   Updated: 2019/09/05 16:56:05 by chermist         ###   ########.fr       */
+/*   Updated: 2019/09/11 23:34:53 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+
+void	path_find(t_support *sup)
+{
+	t_vec	*shortest;
+
+	shortest()
+}

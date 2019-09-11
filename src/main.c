@@ -6,7 +6,7 @@
 /*   By: lkarlon- <lkarlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:39 by chermist          #+#    #+#             */
-/*   Updated: 2019/09/10 18:59:45 by lkarlon-         ###   ########.fr       */
+/*   Updated: 2019/09/11 23:34:54 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ t_lem	*make_room(char *str, t_support *sup)
 	room->y_coor = ft_atoi(tmp[2]);
 	room->room_status = 0;
 	del_valid_arr(tmp);
-	ft_putchar('\n');
+//	ft_putchar('\n');
 	return (room);
 }
 
@@ -222,11 +222,13 @@ int		main(void)
 	i = -1;
 	sup = support_struct_init();
 	start = tree_make(sup);
+//	printf("%s\n", start->name);
 	while (sup->farm[++i] && (i2 = -1))
 	{
 		while (sup->farm[i]->tubes[++i2])
 			printf("%s-%s\n", sup->farm[i]->name,
 					sup->farm[i]->tubes[i2]->name);
 	}
+//	path_find()
 	return (0);
 }
