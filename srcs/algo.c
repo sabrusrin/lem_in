@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vat.c                                           :+:      :+:    :+:   */
+/*   algo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/10 13:24:50 by chermist          #+#    #+#             */
-/*   Updated: 2019/09/13 00:06:09 by chermist         ###   ########.fr       */
+/*   Created: 2019/09/05 16:48:29 by chermist          #+#    #+#             */
+/*   Updated: 2019/09/11 23:34:53 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vector.h"
+#include "lem_in.h"
 
-void	*ft_vat(t_vec *v, size_t at)
+void	path_find(t_support *sup)
 {
-	unsigned char	*tmp;
+	t_vec	*shortest;
 
-	if (v)
-	{
-		tmp = v->data;
-		return ((void*)&tmp[at * v->type_sz]);
-	}
-	return (0);
+	shortest()
 }

@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vat.c                                           :+:      :+:    :+:   */
+/*   ft_vback.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/10 13:24:50 by chermist          #+#    #+#             */
-/*   Updated: 2019/09/13 00:06:09 by chermist         ###   ########.fr       */
+/*   Created: 2019/09/13 00:18:34 by chermist          #+#    #+#             */
+/*   Updated: 2019/09/13 00:29:28 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.h"
 
-void	*ft_vat(t_vec *v, size_t at)
+void	*ft_vback(t_vec *v)
 {
-	unsigned char	*tmp;
-
 	if (v)
-	{
-		tmp = v->data;
-		return ((void*)&tmp[at * v->type_sz]);
-	}
-	return (0);
+		return (ft_vat(v, v->size - 1));
+	return (NULL);
 }

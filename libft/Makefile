@@ -6,7 +6,7 @@
 #    By: lkarlon- <lkarlon-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/27 22:25:22 by chermist          #+#    #+#              #
-#    Updated: 2019/09/11 15:21:39 by chermist         ###   ########.fr        #
+#    Updated: 2019/09/13 00:23:05 by chermist         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,7 +90,8 @@ VEC_F = ft_vnew.c \
 		ft_vpop_back.c \
 		ft_vat.c \
 		ft_vclear.c \
-		ft_vdel.c
+		ft_vdel.c \
+		ft_vback.c
 
 
 MY_F  = get_next_line.c

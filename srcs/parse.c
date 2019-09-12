@@ -1,25 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vat.c                                           :+:      :+:    :+:   */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/10 13:24:50 by chermist          #+#    #+#             */
-/*   Updated: 2019/09/13 00:06:09 by chermist         ###   ########.fr       */
+/*   Created: 2019/09/05 16:48:47 by chermist          #+#    #+#             */
+/*   Updated: 2019/09/05 16:55:40 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vector.h"
-
-void	*ft_vat(t_vec *v, size_t at)
-{
-	unsigned char	*tmp;
-
-	if (v)
-	{
-		tmp = v->data;
-		return ((void*)&tmp[at * v->type_sz]);
-	}
-	return (0);
-}
+#include "lem_in.h"

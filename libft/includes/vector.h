@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/08 19:50:26 by chermist          #+#    #+#             */
-/*   Updated: 2019/09/11 15:43:04 by chermist         ###   ########.fr       */
+/*   Updated: 2019/09/13 00:22:36 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ void			ft_vpop_back(t_vec *v);
 void			*ft_vat(t_vec *v, size_t at);
 void			ft_vdel(t_vec **v);
 void			ft_vclear(t_vec *v);
+void			*ft_vback(t_vec *v);
 
 #endif

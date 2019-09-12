@@ -6,7 +6,7 @@
 #    By: lkarlon- <lkarlon-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/04 18:07:03 by chermist          #+#    #+#              #
-#    Updated: 2019/09/08 19:45:09 by lkarlon-         ###   ########.fr        #
+#    Updated: 2019/09/13 02:17:00 by chermist         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = lem-in
 
 CC = gcc
 
-INCDIR = -I libft/includes -I inc
+INCDIR = -I libft/includes -I incs
 
 LIBDIR = -L libft
 
@@ -22,7 +22,7 @@ LIB = -lft
 
 CFLAGS = -g $(INCDIR)
 
-SRCDIR = src
+SRCDIR = srcs
 
 SRC = 	main.c \
 		support.c
