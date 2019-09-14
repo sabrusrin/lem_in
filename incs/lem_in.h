@@ -29,7 +29,8 @@ typedef struct	s_lem
     int             mark;
     int             ants;
     int             room_status;
-    struct s_lem    **tubes;
+	t_vec			*tubes;
+//    struct s_lem    **tubes;
 }				t_lem;
 
 typedef struct	s_support
