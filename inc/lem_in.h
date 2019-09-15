@@ -23,26 +23,28 @@
 
 typedef struct	s_lem
 {
-    char            *name;
-    int             x_coor;
-    int             y_coor;
-    int             mark;
-    int             ants;
-    int             room_status;
-    struct s_lem    **tubes;
+	char		*name;
+	int			x_coor;
+	int			y_coor;
+	int			mark;
+	int			ants;
+	int			room_status;
+	t_vec		*tubes;
 }				t_lem;
 
 typedef struct	s_support
 {
-    int         ants;
-    int         start_mark;
-    int         end_mark; 
-    char        **valid_arr;
-    t_lem	    **farm;
+	int			ants;
+	int			start_mark;
+	int			end_mark;
+	char		**valid_arr;
+	t_vec		*farm;
 }				t_support;
 
-void        ft_alarm (char *str, char **valid_arr);
-t_support   *support_struct_init(void);
-void	    del_valid_arr(char **valid_arr);
+void			ft_alarm (char *str, char **valid_arr);
+t_support		*support_struct_init(void);
+void			del_valid_arr(char **valid_arr);
+
+t_lem			*tree_make(t_support *sup);
 
 #endif

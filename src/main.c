@@ -6,11 +6,11 @@
 /*   By: lkarlon- <lkarlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:39 by chermist          #+#    #+#             */
-/*   Updated: 2019/09/11 23:34:54 by chermist         ###   ########.fr       */
+/*   Updated: 2019/09/15 22:45:28 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/lem_in.h"
+#include "lem_in.h"
 #include <stdio.h>
 
 int		rooms_valid(char **tmp, char *str)
@@ -43,6 +43,8 @@ int		command_valid(char *str)
 
 	i = 0;
 	arr = 0;
+	if (str[0] == '#' && str[1] != '#')
+		return(6);
 	tmp = ft_strsplit(str, ' ');
 	while (tmp[i++])
 		arr++;
@@ -73,28 +75,29 @@ int		command_valid(char *str)
 t_lem	*make_room(char *str, t_support *sup)
 {
 	t_lem	*room;
+	t_lem	*vat;
 	char	**tmp;
 	int		i;
 
 	i = -1;
-	if (!(room = ft_memalloc(sizeof(t_lem) * 100)))
+	if (!(room = ft_memalloc(sizeof(t_lem))))
 		exit(0);
-	if (!(room->tubes = ft_memalloc(sizeof(t_lem*) * 10)))
+	if (!(room->tubes = ft_vnew(5, sizeof(t_lem*))))
 		exit(0);
 	tmp = ft_strsplit(str, ' ');
-	while (sup->farm[++i])
+	while (sup->farm->size > ++i)
 	{
-		if (!(ft_strcmp(sup->farm[i]->name, tmp[0])) || (sup->farm[i]->x_coor
-				== ft_atoi(tmp[1]) && sup->farm[i]->y_coor == ft_atoi(tmp[2])))
+		vat = ((t_lem*)ft_vat(sup->farm, i));
+		if (!(ft_strcmp(vat->name, tmp[0])) || (vat->x_coor == ft_atoi(tmp[1])
+			&& (vat->y_coor == ft_atoi(tmp[2]))))
 			ft_alarm(str, tmp);
 	}
 	room->name = tmp[0];
 	tmp[0] = NULL;
 	room->x_coor = ft_atoi(tmp[1]);
 	room->y_coor = ft_atoi(tmp[2]);
-	room->room_status = 0;
+	room->room_status = 22;
 	del_valid_arr(tmp);
-//	ft_putchar('\n');
 	return (room);
 }
 
@@ -141,18 +144,16 @@ int		make_tube(char *str, t_support *sup)
 	tmp = ft_strsplit(str, '-');
 	if ((i = -1) && !*(&tmp + 2))
 		ft_alarm(str, tmp);
-	while (sup->farm[++i] && connect != 2)
+	while (sup->farm->size > ++i && connect != 2)
 	{
-		if (!(ft_strcmp(sup->farm[i]->name, tmp[0])) && ++connect)
-			start = sup->farm[i];
-		if (!(ft_strcmp(sup->farm[i]->name, tmp[1])) && ++connect)
-			end = sup->farm[i];
+		if (!(ft_strcmp((*(t_lem**)ft_vat(sup->farm, i))->name, tmp[0])) && ++connect)
+			start = *(t_lem**)ft_vat(sup->farm, i);
+		if (!(ft_strcmp((*(t_lem**)ft_vat(sup->farm, i))->name, tmp[1])) && ++connect)
+			end = *(t_lem**)ft_vat(sup->farm, i);
 	}
 	if ((i = -1) && connect != 2)
 		ft_alarm(str, tmp);  //уничтожить все гавно? Или природа сама разберется? (sup->farm)
-	while (start->tubes[++i])//тут нужен будет вектор
-		;
-	start->tubes[i] = end;
+	ft_vpush_back(start->tubes, &end, sizeof(t_lem*));
 	del_valid_arr(tmp);
 	return (1);
 }
@@ -160,16 +161,33 @@ int		make_tube(char *str, t_support *sup)
 void	rooms_valid_block(char *str, t_support *sup)
 {
 	int i;
+	t_lem *room;
+	void  *el;
 
 	i = 0;
 	while (get_next_line(0, &str))
 	{
+		if (command_valid(str) == 6)
+		{
+			if (str)
+				ft_strdel(&str);
+			continue;
+		}
 		if (command_valid(str) == 2)
-			sup->farm[i++] = make_room(str, sup);
+		{
+			room = make_room(str, sup);
+			ft_vpush_back(sup->farm, &room, sizeof(t_lem*));
+		}
 		else if (command_valid(str) == 3)
-			sup->farm[i++] = make_important_room(str, 1, sup);
+		{
+			room = make_important_room(str, 1, sup);
+			ft_vpush_back(sup->farm, &room, sizeof(t_lem*));
+		}
 		else if (command_valid(str) == 4)
-			sup->farm[i++] = make_important_room(str, 2, sup);
+		{
+			room = make_important_room(str, 2, sup);
+			ft_vpush_back(sup->farm, &room, sizeof(t_lem*));
+		}
 		else if (command_valid(str) == 5)
 		{
 			if (sup->start_mark != 1 || sup->end_mark != 1)
@@ -202,6 +220,12 @@ t_lem	*tree_make(t_support *sup)
 	rooms_valid_block(str, sup);
 	while (get_next_line(0, &str))
 	{
+		if (command_valid(str) == 6)
+		{
+			if (str)
+				ft_strdel(&str);
+			continue;
+		}
 		if (command_valid(str) == 5)
 			make_tube(str, sup);
 		else
@@ -216,19 +240,23 @@ int		main(void)
 {
 	t_lem		*start;
 	t_support	*sup;
+	t_lem		*tmp;
 	int			i;
 	int			i2;
 
 	i = -1;
 	sup = support_struct_init();
 	start = tree_make(sup);
-//	printf("%s\n", start->name);
-	while (sup->farm[++i] && (i2 = -1))
+//	path_find(sup);
+	while (sup->farm->size > ++i && (i2 = -1))
 	{
-		while (sup->farm[i]->tubes[++i2])
-			printf("%s-%s\n", sup->farm[i]->name,
-					sup->farm[i]->tubes[i2]->name);
+		tmp = *(t_lem**)ft_vat(sup->farm, i);
+		while (tmp->tubes->size > ++i2)
+		{
+			printf("%s-%s\n", tmp->name,
+					(*(t_lem**)ft_vat(tmp->tubes, i2))->name);
+		}
 	}
-//	path_find()
+	//write(1, "hello\n", 6);
 	return (0);
 }
