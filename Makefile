@@ -6,7 +6,7 @@
 #    By: lkarlon- <lkarlon-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/04 18:07:03 by chermist          #+#    #+#              #
-#    Updated: 2019/09/15 19:12:26 by chermist         ###   ########.fr        #
+#    Updated: 2019/09/17 01:30:08 by chermist         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,10 +25,10 @@ CFLAGS = -g $(INCDIR)
 SRCDIR = src
 
 SRC = 	main.c \
-		support.c
+		support.c \
+		parse.c
 #	  lem_in.c \
 	  algo.c \
-	  parse.c
 
 OBJ = $(SRC:.c=.o)
 

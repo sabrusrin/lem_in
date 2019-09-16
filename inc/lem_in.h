@@ -41,9 +41,15 @@ typedef struct	s_support
 	t_vec		*farm;
 }				t_support;
 
-void			ft_alarm (char *str, char **valid_arr);
+void			ft_alarm (char *str, char **valid_arr, t_support *sup);
 t_support		*support_struct_init(void);
+void			del_farm(t_support *sup);
 void			del_valid_arr(char **valid_arr);
+
+int				command_valid(char *str, t_support *sup);
+t_lem			*make_room(char *str, t_support *sup);
+t_lem			*make_important_room(int status, t_support *sup);
+int				make_tube(char *str, t_support *sup);
 
 t_lem			*tree_make(t_support *sup);
 
