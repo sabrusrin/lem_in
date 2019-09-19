@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:29 by chermist          #+#    #+#             */
-/*   Updated: 2019/09/19 08:23:53 by chermist         ###   ########.fr       */
+/*   Updated: 2019/09/20 02:18:24 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	print_path(t_vec *path)
 	while (++i < path->size)
 	{
 		tmp = *(t_lem**)ft_vat(path, i);
-		printf("%s->", tmp->name);
+		printf("%s>>", tmp->name);
 	}
 	printf("\n");
 }
@@ -36,86 +36,47 @@ void	bfs(t_lem *start, t_vec *paths, t_queue *q)
 	t_lem	*ret;
 	int		i;
 	int		j;
-	//int		last;
 
-//	printf("KAKA\n");
 	path = ft_vnew(5, sizeof(t_lem*));
-//	q = ft_qnew(sup->farm->size, sizeof(t_vec*));
 	ft_vpush_back(path, &start, sizeof(t_lem*));
 	ft_qpush(q, &path);
-	printf("1: %p   \n", path);
-	//while (!(ft_qempty(q)))
 	while (!ft_qempty(q))
 	{
-		path = *(t_vec**)ft_qfront(q);
-		printf("2: %p   \n", path);
-		item = *(t_vec**)ft_qpop(q);
-		printf("3: %p   \n", item);
-//	QUEUE DOESN'T WORK CORRECTLY
-		start = *(t_lem**)ft_vat(path, 0);
-		printf("[%s   %d]\n", start->name, start->mark);
+		path = *(t_vec**)ft_qpop(q);
+	//	printf("2: %p   \n", path);
+		start = *(t_lem**)ft_vback(path);
+		printf("\n[%s]->", start->name);
 		start->mark = BLACK;
-		ft_qpop(q);
-//		start = *(t_lem**)ft_vat()
-//		room = path
-//		printf("|%s|\n", start->name);
-//		if (start->room_status == 2)
+		if (start->room_status == 2)
 			print_path(path);
 		i = -1;
 		while (++i < start->tubes->size)
 		{
 			//when a crossroad met span a tree 
 			room = *(t_lem**)ft_vat(start->tubes, i);
-			if (room->mark != BLACK)
+			if (room->mark == WHITE || room->room_status == 2)
 			{
-			printf("|%s   %d|\n", room->name, room->mark);
-				path = ft_vnew(5, sizeof(t_lem*));
-				ft_vpush_back(path, &room, sizeof(t_lem*));		
-				ft_qpush(q, &path);
-				printf("1: %p   \n", path);
+			printf("|%s|\n", room->name);
+				newpath = ft_vdup(path);
+				ft_vpush_back(newpath, &room, sizeof(t_lem*));		
+				ft_qpush(q, &newpath);
+				t_lem	*tmp;///
+				newpath = *(t_vec**)ft_qfront(q);
+				printf("&%p&\n", (char*)ft_qfront(q));
+				j = -1;
+				printf("{");
+				while (++j < newpath->size)
+				{
+					tmp = *(t_lem**)ft_vat(newpath, j);
+					printf("%s->", tmp->name);
+
+				}
+				printf("}\n");///
+//				printf("1: %p   \n", newpath);
 				room->mark = GRAY;
 			}
 		}
 	}
-	/*
-	i = -1;
-	start->mark = BLACK;
-	path = ft_vnew(5, sizeof(t_lem*));
-//	printf("%s   %d\n", start->name, (int)start->tubes->size);
-	while (++i < start->tubes->size)
-	{
-		j = -1;
-		while (++j < start->tubes->size)
-		{
-			room = *(t_lem**)ft_vat(start->tubes, j);
-			if (room->mark == WHITE)
-				room->mark = GRAY;
-		}
-		room = *(t_lem**)ft_vat(start->tubes, i);
-		if (room->room_status == 2)
-			return (room);// save path
-		else if (room->mark != BLACK)
-		{
-			printf("%s->", room->name);
-			ret = bfs(room, paths, q);
-			if (room->tubes->size > 1)
-			{
-				room->mark = GRAY;
-				printf("\n");
-				continue;
-			}
-			else if (ret && ret->room_status != 1)
-			{
-				printf("%s<-", ret->name);
-				return (room);
-			}
-			else
-				printf("none");
-			if (start->room_status == 1)
-				printf("\n");
-		}
-	}
-	return (NULL);*/
 }
 
 void	path_find(t_support *sup)

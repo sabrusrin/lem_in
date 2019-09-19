@@ -6,7 +6,7 @@
 #    By: lkarlon- <lkarlon-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/04 18:07:03 by chermist          #+#    #+#              #
-#    Updated: 2019/09/19 04:26:25 by chermist         ###   ########.fr        #
+#    Updated: 2019/09/20 02:11:49 by chermist         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,8 @@ CC = gcc
 INCDIR = -I libft/includes -I inc
 
 LIBDIR = -L libft
+
+LIBNAME = libft/libft.a
 
 LIB = -lft
 
@@ -36,10 +38,13 @@ vpath %.c $(SRCDIR)
 
 all: DEPS $(NAME)
 
-$(NAME): $(OBJ)
+$(NAME): $(OBJ) $(LIBNAME)
 	$(CC) $(CFLAGS) $(INCDIR) $(LIBDIR) $(LIB) $(OBJ) -o $@
 
 DEPS:
+	make -C libft/
+
+$(LIBNAME):
 	make -C libft/
 
 %.o: %.c %.h
