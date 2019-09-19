@@ -6,7 +6,7 @@
 #    By: lkarlon- <lkarlon-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/04 18:07:03 by chermist          #+#    #+#              #
-#    Updated: 2019/09/17 01:30:08 by chermist         ###   ########.fr        #
+#    Updated: 2019/09/19 04:26:25 by chermist         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,9 +26,9 @@ SRCDIR = src
 
 SRC = 	main.c \
 		support.c \
-		parse.c
+		parse.c \
+	  	algo.c
 #	  lem_in.c \
-	  algo.c \
 
 OBJ = $(SRC:.c=.o)
 

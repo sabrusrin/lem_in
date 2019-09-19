@@ -1,0 +1,164 @@
+#include "lemin.h"
+
+void		remove_node(t_list_of_nodes **list, t_node *node)
+{
+	t_list_of_nodes *tmp;
+	t_list_of_nodes *start;
+
+	tmp = NULL;
+	if ((*list)->node == node)
+	{
+		tmp = *list;
+		*list = (*list)->next;
+	}
+	else
+	{
+		start = *list;
+		while ((*list)->next)
+		{
+			if ((*list)->next->node == node)
+			{
+				tmp = (*list)->next;
+				(*list)->next = (*list)->next->next;
+				break ;
+			}
+			*list = (*list)->next;
+		}
+		*list = start;
+	}
+	free(tmp);
+}
+
+static void	start_to_end_handle(t_lem *lem, t_list_of_pathes **pathes_1,
+		t_list_of_pathes **pathes_2)
+{
+	t_list_of_nodes *path;
+
+	if (node_in_path(lem->start->links, lem->end))
+	{
+		path = NULL;
+		push_node(&path, lem->start);
+		push_node(&path, lem->end);
+		push_path(pathes_1, path);
+		push_path(pathes_2, path);
+		remove_node(&lem->start->links, lem->end);
+		remove_node(&lem->end->links, lem->start);
+	}
+}
+
+static void	reset_used_nodes(t_list_of_nodes *list, t_lem *lem)
+{
+	reset_nodes_in_queue(list, lem);
+	while (list)
+	{
+		list->node->bfs_used = 0;
+		list = list->next;
+	}
+}
+
+void		get_pathes(t_list_of_pathes **pathes_1, t_list_of_pathes **pathes_2,
+			t_lem *lem)
+{
+	t_list_of_nodes *path;
+
+	start_to_end_handle(lem, pathes_1, pathes_2);
+	while ((path = bfs(lem, BFS_ORIGINAL)))
+		push_path(pathes_1, path);
+	reset_used_nodes(lem->nodes, lem);
+	sort_nodes_by_amount_of_links(lem->nodes);
+	while ((path = bfs(lem, BFS_LESS_LINKS)))
+		push_path(pathes_2, path);
+	sort_pathes_by_len(*pathes_2);
+	if (!*pathes_1 && !*pathes_2)
+		error("Not enough data to process", lem);
+}
+
+static t_list_of_nodes	*form_path(t_node *node)
+{
+	t_list_of_nodes *path;
+
+	path = NULL;
+	while (node)
+	{
+		push_node(&path, node);
+		node->bfs_used = 1;
+		node = node->bfs_prev;
+	}
+	return (path);
+}
+
+void					reset_nodes_in_queue(t_list_of_nodes *nodes, t_lem *lem)
+{
+	while (nodes)
+	{
+		nodes->node->bfs_in_queue = 0;
+		nodes->node->bfs_prev = NULL;
+		nodes = nodes->next;
+	}
+	lem->start->bfs_used = 0;
+	lem->end->bfs_in_queue = 1;
+}
+
+static void				work_with_links(t_list_of_nodes *links,
+						t_list_of_nodes **queue, t_node *prev)
+{
+	while (links)
+	{
+		if (links->node->bfs_in_queue == 0 && links->node->bfs_used == 0)
+		{
+			push_node(queue, links->node);
+			links->node->bfs_in_queue = 1;
+			links->node->bfs_prev = prev;
+		}
+		links = links->next;
+	}
+}
+
+static void				work_with_links_2(t_list_of_nodes *links,
+						t_list_of_nodes **queue, t_node *prev)
+{
+	int node_pushed;
+
+	node_pushed = 0;
+	while (links)
+	{
+		if (links->node->bfs_in_queue == 0 && links->node->bfs_used == 0)
+		{
+			if (links->next != NULL || !node_pushed)
+			{
+				push_node(queue, links->node);
+				links->node->bfs_in_queue = 1;
+				links->node->bfs_prev = prev;
+				if (links->node->links->node != prev)
+					node_pushed = 1;
+			}
+		}
+		links = links->next;
+	}
+}
+
+t_list_of_nodes			*bfs(t_lem *lem, int mode)
+{
+	t_list_of_nodes *queue;
+	t_node			*node;
+
+	queue = create_list_of_nodes(lem->end);
+	reset_nodes_in_queue(lem->nodes, lem);
+	while (queue)
+	{
+		node = pop_node(&queue);
+		if (node == lem->start)
+		{
+			delete_path(queue);
+			return (form_path(lem->start));
+		}
+		else
+		{
+			if (mode == 0)
+				work_with_links(node->links, &queue, node);
+			else if (mode == 1)
+				work_with_links_2(node->links, &queue, node);
+		}
+	}
+	return (NULL);
+}

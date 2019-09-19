@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vpush_back.c                                    :+:      :+:    :+:   */
+/*   ft_qpush.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/09 20:51:28 by chermist          #+#    #+#             */
-/*   Updated: 2019/09/18 23:54:26 by chermist         ###   ########.fr       */
+/*   Created: 2019/09/18 23:15:12 by chermist          #+#    #+#             */
+/*   Updated: 2019/09/19 00:40:00 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vector.h"
+#include "queue.h"
 
-void	ft_vpush_back(t_vec *v, void *val, size_t val_sz)
+void	ft_qpush(t_queue *queue, void *item)
 {
-	unsigned char	*tmp;
-
-	if (v && val && val_sz == v->type_sz)
-	{
-		if (v->capacity < v->size + 1)
-			ft_vresize(v, v->capacity * v->type_sz * 2);
-		tmp = (unsigned char*)v->data;
-		ft_memmove(&v->data[v->size * v->type_sz], val, val_sz);
-		v->size += 1;
-	}
+	if (ft_qfull(queue))
+		return ;
+	queue->rear = (queue->rear + 1) % queue->capacity;
+	ft_memmove(&queue->data[queue->rear * queue->type_sz],
+			item, queue->type_sz);
+	queue->size += 1;
 }

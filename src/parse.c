@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:47 by chermist          #+#    #+#             */
-/*   Updated: 2019/09/17 01:30:49 by chermist         ###   ########.fr       */
+/*   Updated: 2019/09/19 08:23:58 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,17 +80,15 @@ t_lem	*make_room(char *str, t_support *sup)
 	if (!(room->tubes = ft_vnew(5, sizeof(t_lem*))))
 		ft_alarm(str, tmp, sup);
 	tmp = ft_strsplit(str, ' ');
-	while (sup->farm->size > ++i)
-	{
-		vat = ((t_lem*)ft_vat(sup->farm, i));
+	while (sup->farm->size > ++i && (vat = ((t_lem*)ft_vat(sup->farm, i))))
 		if (!(ft_strcmp(vat->name, tmp[0])) || (vat->x_coor == ft_atoi(tmp[1])
 			&& (vat->y_coor == ft_atoi(tmp[2]))))
 			ft_alarm(str, tmp, sup);
-	}
 	room->name = ft_strdup(tmp[0]);
 	room->x_coor = ft_atoi(tmp[1]);
 	room->y_coor = ft_atoi(tmp[2]);
-	room->room_status = 22;
+	room->room_status = 0;
+	room->mark = WHITE;
 	del_valid_arr(tmp);
 	return (room);
 }
@@ -109,7 +107,7 @@ t_lem	*make_important_room(int status, t_support *sup)
 			room->room_status = 1;
 			sup->start_mark++;
 		}
-		else
+		else if (status == 2)
 		{
 			room->room_status = 2;
 			sup->end_mark++;
@@ -145,7 +143,9 @@ int		make_tube(char *str, t_support *sup)
 	}
 	if ((i = -1) && connect != 2)
 		ft_alarm(str, tmp, sup);
-	ft_vpush_back(bend[0]->tubes, &bend[1], sizeof(t_lem*));
+	tube_connect(bend[0], bend[1]);
+//	ft_vpush_back(bend[0]->tubes, &bend[1], sizeof(t_lem*));
+//	ft_vpush_back(bend[1]->tubes, &bend[0], sizeof(t_lem*));
 	del_valid_arr(tmp);
 	return (1);
 }

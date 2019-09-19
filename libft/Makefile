@@ -6,7 +6,7 @@
 #    By: lkarlon- <lkarlon-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/27 22:25:22 by chermist          #+#    #+#              #
-#    Updated: 2019/09/13 00:23:05 by chermist         ###   ########.fr        #
+#    Updated: 2019/09/19 00:37:05 by chermist         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,10 +93,19 @@ VEC_F = ft_vnew.c \
 		ft_vdel.c \
 		ft_vback.c
 
+Q_F   = ft_qnew.c \
+		ft_qpush.c \
+		ft_qpop.c \
+		ft_qback.c \
+		ft_qfront.c \
+		ft_qempty.c \
+		ft_qfull.c \
+		ft_qsize.c
 
 MY_F  = get_next_line.c
 
-SRCS =	$(MEM_F) $(STR_F) $(CHR_F) $(PUT_F) $(LST_F) $(MY_F) $(MATH_F) $(VEC_F)
+SRCS =	$(MEM_F) $(STR_F) $(CHR_F) $(PUT_F) $(LST_F) \
+		$(MY_F) $(MATH_F) $(VEC_F) $(MY_F) $(Q_F)
 
 INC = -I./includes
 
@@ -111,6 +120,7 @@ vpath %.c lst
 vpath %.c myfunc
 vpath %.c math
 vpath %.c vector
+vpath %.c queue
 
 FLAGS = -Wall -Wextra -Werror
 

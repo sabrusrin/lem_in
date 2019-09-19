@@ -21,6 +21,10 @@
 
 # include "libft.h"
 
+# define WHITE 0
+# define GRAY 1
+# define BLACK 2
+
 typedef struct	s_lem
 {
 	char		*name;
@@ -49,8 +53,10 @@ void			del_valid_arr(char **valid_arr);
 int				command_valid(char *str, t_support *sup);
 t_lem			*make_room(char *str, t_support *sup);
 t_lem			*make_important_room(int status, t_support *sup);
+void			tube_connect(t_lem *start, t_lem *end);
 int				make_tube(char *str, t_support *sup);
 
 t_lem			*tree_make(t_support *sup);
+void			path_find(t_support *sup);
 
 #endif
