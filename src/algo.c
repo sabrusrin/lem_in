@@ -66,7 +66,7 @@ void	bfs(t_lem *start, t_vec *paths, t_queue *q)
 		{
 			//when a crossroad met span a tree 
 			room = *(t_lem**)ft_vat(start->tubes, i);
-			if (room->mark != BLACK)
+			if (room->mark == WHITE)
 			{
 			printf("|%s   %d|\n", room->name, room->mark);
 				path = ft_vnew(5, sizeof(t_lem*));
@@ -136,7 +136,7 @@ void	path_find(t_support *sup)
 			ft_putstr(room->name);
 			room->mark = BLACK;
 			paths = ft_vnew(sup->farm->size, sizeof(t_lem*));
-			q = ft_qnew(sup->farm->size, sizeof(t_vec*));
+			q = ft_qnew(sup->farm->size * 2, sizeof(t_vec*));
 			bfs(room, paths, q);
 			break;
 		}
