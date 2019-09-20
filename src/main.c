@@ -6,7 +6,7 @@
 /*   By: lkarlon- <lkarlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:39 by chermist          #+#    #+#             */
-/*   Updated: 2019/09/19 08:23:54 by chermist         ###   ########.fr       */
+/*   Updated: 2019/09/20 19:35:26 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ int		main(void)
 	sup = support_struct_init();
 	start = tree_make(sup);
 	path_find(sup);
-	ft_putchar('\n');
+	
+/*	ft_putchar('\n');
 	while (sup->farm->size > ++i && (i2 = -1))
 	{
 		tmp = *(t_lem**)ft_vat(sup->farm, i);
@@ -90,7 +91,7 @@ int		main(void)
 			printf("|%s-%s\n", tmp->name,
 					(*(t_lem**)ft_vat(tmp->tubes, i2))->name);
 		}
-	}
+	}*/
 	del_farm(sup);
 	return (0);
 }

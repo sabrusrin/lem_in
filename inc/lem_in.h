@@ -30,6 +30,7 @@ typedef struct	s_lem
 	char		*name;
 	int			x_coor;
 	int			y_coor;
+	int			link;
 	int			mark;
 	int			ants;
 	int			room_status;

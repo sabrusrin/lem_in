@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:47 by chermist          #+#    #+#             */
-/*   Updated: 2019/09/19 08:23:58 by chermist         ###   ########.fr       */
+/*   Updated: 2019/09/20 19:43:22 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ t_lem	*make_room(char *str, t_support *sup)
 	room->y_coor = ft_atoi(tmp[2]);
 	room->room_status = 0;
 	room->mark = WHITE;
+	room->link = 0;
 	del_valid_arr(tmp);
 	return (room);
 }
@@ -144,8 +145,6 @@ int		make_tube(char *str, t_support *sup)
 	if ((i = -1) && connect != 2)
 		ft_alarm(str, tmp, sup);
 	tube_connect(bend[0], bend[1]);
-//	ft_vpush_back(bend[0]->tubes, &bend[1], sizeof(t_lem*));
-//	ft_vpush_back(bend[1]->tubes, &bend[0], sizeof(t_lem*));
 	del_valid_arr(tmp);
 	return (1);
 }
