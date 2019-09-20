@@ -6,18 +6,21 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 23:15:12 by chermist          #+#    #+#             */
-/*   Updated: 2019/09/19 00:40:00 by chermist         ###   ########.fr       */
+/*   Updated: 2019/09/20 02:15:39 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "queue.h"
+#include <stdio.h>
 
-void	ft_qpush(t_queue *queue, void *item)
+void	ft_qpush(t_queue *q, void *item)
 {
-	if (ft_qfull(queue))
+	if (ft_qfull(q))
 		return ;
-	queue->rear = (queue->rear + 1) % queue->capacity;
-	ft_memmove(&queue->data[queue->rear * queue->type_sz],
-			item, queue->type_sz);
-	queue->size += 1;
+	q->rear = (q->rear + 1) % q->capacity;
+//	printf("^%d %d^\n", q->rear, (int)q->type_sz);
+	ft_memmove((void*)&q->data[q->rear * q->type_sz],
+			item, q->type_sz);
+//	printf("|%p|\n",&q->data[q->rear * q->type_sz]);
+	q->size += 1;
 }
