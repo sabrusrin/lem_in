@@ -27,6 +27,17 @@ void	print_path(t_vec *path)
 	printf("\n");
 }
 
+int		check_path(t_vec *path, t_lem *room)
+{
+	int i;
+
+	i = -1;
+	while (++i < path->size)
+		if (room == *(t_lem**)ft_vat(path, i))
+			return (0);
+	return (1);
+}
+
 void	bfs(t_lem *start, t_vec *paths, t_queue *q)
 {
 	t_vec	*path;
@@ -42,9 +53,6 @@ void	bfs(t_lem *start, t_vec *paths, t_queue *q)
 		path = *(t_vec**)ft_qpop(q);
 		start = *(t_lem**)ft_vback(path);
 //		printf("\n[%s]->", start->name);
-//		if (start->link == start->tubes->size)
-			start->mark = BLACK;
-//		start->link++;
 		if (start->room_status == 2)
 		{
 			ft_vpush_back(paths, &path, sizeof(t_vec*));
@@ -54,13 +62,12 @@ void	bfs(t_lem *start, t_vec *paths, t_queue *q)
 		while (++i < start->tubes->size)
 		{
 			room = *(t_lem**)ft_vat(start->tubes, i);
-			if (room->mark != BLACK || room->room_status == 2)
+			if (check_path(path, room))
 			{
-//			printf("|%s|\n", room->name);
+//				printf("|%s|\n", room->name);
 				newpath = ft_vdup(path);
 				ft_vpush_back(newpath, &room, sizeof(t_lem*));		
-				ft_qpush(q, &newpath);// problem is here, for some reason newpath being pushed incorrectly
-				room->mark = GRAY;
+				ft_qpush(q, &newpath);
 			}
 		}
 	}
@@ -85,4 +92,6 @@ void	path_find(t_support *sup)
 			break;
 		}
 	}
+//	max_flow(paths);
+	//ft_qdel(q);
 }
