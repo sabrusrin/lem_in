@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:29 by chermist          #+#    #+#             */
-/*   Updated: 2019/09/20 20:06:13 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/07 21:55:04 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,9 @@ void	clean_up(t_vec *paths, t_queue *q)
 	int	i;
 
 	i = -1;
-	ft_putstr("HERE?\n");
 	if (q)
 	{
-		ft_putnbr(q->elems);
-		ft_putchar('\t');
-		while (++i < q->elems)
+		while (++i < q->capacity)
 		{
 			tmp = *(t_vec**)ft_qat(q, i);
 			if (tmp)
@@ -105,6 +102,8 @@ void	bfs(t_lem *start, t_vec *paths, t_queue *q)
 			print_path(path);
 			continue;
 		}
+		if (j == q->capacity)
+			break ;
 		i = -1;
 		while (++i < start->tubes->size)
 		{
@@ -126,9 +125,6 @@ void	bfs(t_lem *start, t_vec *paths, t_queue *q)
 			}
 		}
 	}
-			ft_putnbr(j);
-			ft_putchar('\n');
-
 }
 
 void	path_find(t_support *sup)

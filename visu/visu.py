@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from graphics import *
 from nodes import Node
 from time import sleep
