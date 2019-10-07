@@ -20,5 +20,6 @@ void	ft_qpush(t_queue *q, void *item)
 	q->rear = (q->rear + 1) % q->capacity;
 	ft_memmove((void*)&q->data[q->rear * q->type_sz],
 			item, q->type_sz);
+	q->elems += 1;
 	q->size += 1;
 }

@@ -15,11 +15,11 @@
 void		del_farm(t_support *sup)
 {
 	t_lem	*room;
+	char	*str;
 	int		i;
 
-	if (sup)
+	if (sup && (i = -1))
 	{
-		i = -1;
 		while (++i < sup->farm->size)
 			if ((room = *(t_lem**)ft_vat(sup->farm, i)))
 			{
@@ -28,6 +28,13 @@ void		del_farm(t_support *sup)
 					ft_strdel(&room->name);
 				ft_memdel((void**)&room);
 			}
+		if (sup->opt.nomap && (i = -1))
+		{
+			while (++i < sup->in->size &&
+				(str = *(char**)ft_vat(sup->in, i)))	
+				ft_strdel(&str);
+			ft_vdel(&sup->in);
+		}
 		ft_vdel(&sup->farm);
 		ft_memdel((void**)&sup);
 	}
@@ -39,9 +46,15 @@ t_support	*support_struct_init(void)
 
 	if (!(sup = ft_memalloc(sizeof(t_support))))
 		exit(1);
-	if (!(sup->farm = ft_vnew(25, sizeof(t_lem*))))
+	if (!(sup->farm = ft_vnew(100, sizeof(t_lem*))))
 	{
 		ft_memdel((void**)&sup);
+		exit(1);
+	}
+	if (!(sup->in = ft_vnew(500, sizeof(char*))))
+	{
+		ft_memdel((void**)&sup);
+		ft_vdel(&sup->farm);
 		exit(1);
 	}
 	sup->start_mark = 0;
@@ -84,12 +97,12 @@ void		del_valid_arr(char **valid_arr)
 	valid_arr = NULL;
 }
 
-void		ft_alarm(char *str, char **valid_arr, t_support *sup)
+void		ft_alarm(char **valid_arr, t_support *sup)
 {
+	sup->opt.nomap = 1;
 	del_farm(sup);
 	if (valid_arr)
 		del_valid_arr(valid_arr);
-	ft_strdel(&str);
 	write(1, "ERROR\n", 6);
 	exit(0);
 }

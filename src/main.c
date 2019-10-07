@@ -21,9 +21,8 @@ void	rooms_valid_block(t_support *sup)
 
 	while (get_next_line(0, &str) && (val = command_valid(str, sup)))
 	{
-		if (val == 6)
-			;
-		else if (val == 2 && (room = make_room(str, sup)))
+		ft_vpush_back(sup->in, &str, sizeof(char*));
+		if (val == 2 && (room = make_room(str, sup)))
 			ft_vpush_back(sup->farm, &room, sizeof(t_lem*));
 		else if (val == 3 && (room = make_important_room(1, sup)))
 			ft_vpush_back(sup->farm, &room, sizeof(t_lem*));
@@ -32,66 +31,72 @@ void	rooms_valid_block(t_support *sup)
 		else if (val == 5)
 		{
 			if (sup->start_mark != 1 || sup->end_mark != 1)
-				ft_alarm(str, NULL, sup);
+				ft_alarm(NULL, sup);
 			make_tube(str, sup);
 		}
-		else
-			ft_alarm(str, NULL, sup);
-		ft_strdel(&str);
+		else if (val != 6)
+			ft_alarm(NULL, sup);
 	}
 }
 
 t_lem	*tree_make(t_support *sup)
 {
 	char	*str;
-	int		i;
 	int		val;
 
-	i = 0;
 	get_next_line(0, &str);
+	ft_vpush_back(sup->in, &str, sizeof(char*));
 	if (command_valid(str, sup) == 1)
 		sup->ants = atoi(str);
 	else
-		ft_alarm(str, NULL, sup);
-	ft_strdel(&str);
+		ft_alarm(NULL, sup);
 	rooms_valid_block(sup);
 	while (get_next_line(0, &str))
 	{
+		ft_vpush_back(sup->in, &str, sizeof(char*));
 		val = command_valid(str, sup);
 		if (val == 6)
 			;
 		else if (val == 5)
 			make_tube(str, sup);
 		else
-			ft_alarm(str, NULL, sup);
-		ft_strdel(&str);
+			ft_alarm(NULL, sup);
 	}
 	return (NULL);
 }
 
-int		main(void)
+int		main(int ac, char **av)
 {
 	t_lem		*start;
 	t_support	*sup;
 	t_lem		*tmp;
-	int			i;
-	int			i2;
-
-	i = -1;
+	t_opt		opt;
+	
+	if (ac > 1)
+	{
+		if (!ft_strcmp("--help", av[1]))
+		{
+			ft_putstr("usage: ./lem-in [option] < graph\n");
+			ft_putstr("options:\n\t--help : to read the manual\n");
+			ft_putstr("\t--visu : to start with visualizer\n");
+			ft_putstr("\t--paths : to print paths discovered\n");
+			ft_putstr("\t--nomap : to print instructions only\n");
+			return (0);
+		}
+		if (!ft_strcmp("--visu", av[1]))
+			opt.visu = 1;
+		else if (!ft_strcmp("--paths", av[1]))
+			opt.nomap = 1;
+		else if (!ft_strcmp("--nomap", av[1]))
+			opt.nomap = 1;
+	}
 	sup = support_struct_init();
+//	if (opt.visu)
+//		visu_init();
+	sup->opt = opt;
 	start = tree_make(sup);
 	path_find(sup);
 	
-/*	ft_putchar('\n');
-	while (sup->farm->size > ++i && (i2 = -1))
-	{
-		tmp = *(t_lem**)ft_vat(sup->farm, i);
-		while (tmp->tubes->size > ++i2)
-		{
-			printf("|%s-%s\n", tmp->name,
-					(*(t_lem**)ft_vat(tmp->tubes, i2))->name);
-		}
-	}*/
 	del_farm(sup);
 	return (0);
 }

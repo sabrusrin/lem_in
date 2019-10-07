@@ -30,12 +30,18 @@ typedef struct	s_lem
 	char		*name;
 	int			x_coor;
 	int			y_coor;
-	int			link;
 	int			mark;
 	int			ants;
 	int			room_status;
 	t_vec		*tubes;
 }				t_lem;
+
+typedef struct	s_opt
+{
+	int			visu;
+	int			paths;
+	int			nomap;
+}				t_opt;
 
 typedef struct	s_support
 {
@@ -43,10 +49,12 @@ typedef struct	s_support
 	int			start_mark;
 	int			end_mark;
 	char		**valid_arr;
+	t_opt		opt;
 	t_vec		*farm;
+	t_vec		*in;
 }				t_support;
 
-void			ft_alarm (char *str, char **valid_arr, t_support *sup);
+void			ft_alarm (char **valid_arr, t_support *sup);
 t_support		*support_struct_init(void);
 void			del_farm(t_support *sup);
 void			del_valid_arr(char **valid_arr);

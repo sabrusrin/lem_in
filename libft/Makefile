@@ -97,11 +97,14 @@ VEC_F = ft_vnew.c \
 Q_F   = ft_qnew.c \
 		ft_qpush.c \
 		ft_qpop.c \
+		ft_qat.c \
 		ft_qback.c \
 		ft_qfront.c \
 		ft_qempty.c \
 		ft_qfull.c \
-		ft_qsize.c
+		ft_qsize.c \
+		ft_qclear.c \
+		ft_qdel.c
 
 MY_F  = get_next_line.c
 
