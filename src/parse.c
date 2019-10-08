@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:47 by chermist          #+#    #+#             */
-/*   Updated: 2019/09/20 19:43:22 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/08 23:15:49 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ t_lem	*make_room(char *str, t_support *sup)
 	room->y_coor = ft_atoi(tmp[2]);
 	room->room_status = 0;
 	room->mark = 0;
+	room->val = 0;
 	del_valid_arr(tmp);
 	return (room);
 }

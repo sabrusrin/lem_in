@@ -31,6 +31,7 @@ typedef struct	s_lem
 	int			x_coor;
 	int			y_coor;
 	int			mark;
+	int			val;
 	int			ants;
 	int			room_status;
 	t_vec		*tubes;

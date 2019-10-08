@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:29 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/07 21:55:04 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/08 23:15:48 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,8 @@ void	bfs(t_lem *start, t_vec *paths, t_queue *q)
 	t_vec	*path;
 	t_vec	*newpath;
 	t_lem	*room;
-	t_lem	*chk;
 	int		i;
-	int		j;
 
-	j = 1;
 	path = ft_vnew(5, sizeof(t_lem*));
 	ft_vpush_back(path, &start, sizeof(t_lem*));
 	ft_qpush(q, &path);
@@ -102,24 +99,22 @@ void	bfs(t_lem *start, t_vec *paths, t_queue *q)
 			print_path(path);
 			continue;
 		}
-		if (j == q->capacity)
-			break ;
 		i = -1;
 		while (++i < start->tubes->size)
 		{
 			room = *(t_lem**)ft_vat(start->tubes, i);
-			//if (check_path(path, room))
-			// check if the next room value is <= room+1, if not then use the new path
+//			if (check_path(path, room))
 			if ((room->mark == 0 || room->mark >= start->mark
-				|| start->tubes->size == 1) && check_path(path, room))
+				|| start->tubes->size == 1 || room->room_status == 2)
+					&& check_path(path, room))
 			{
-				if (room->mark == 0)
+				if (room->mark == 0 || room->mark > start->mark + 1)
 					room->mark = start->mark + 1;
 //				printf("|%s|%d|\n", room->name, room->mark);
+//				printf("|%s|\n", room->name);
 				newpath = ft_vdup(path);
-				ft_vpush_back(newpath, &room, sizeof(t_lem*));		
+				ft_vpush_back(newpath, &room, sizeof(t_lem*));
 				ft_qpush(q, &newpath);
-				j++;
 //					printf("PUSH: ");
 //					print_path(newpath);
 			}
@@ -142,7 +137,7 @@ void	path_find(t_support *sup)
 		if (room->room_status == 1)
 		{
 			paths = ft_vnew(sup->farm->size, sizeof(t_vec*));
-			q = ft_qnew(sup->farm->size * 2, sizeof(t_vec*));
+			q = ft_qnew(1000000, sizeof(t_vec*));
 			if (sup->opt.nomap == 0)
 				print_in(sup);
 			bfs(room, paths, q);
