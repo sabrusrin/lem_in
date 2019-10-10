@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_qclear.c                                        :+:      :+:    :+:   */
+/*   ft.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chermist <chermist@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/01 01:50:04 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/11 00:22:22 by chermist         ###   ########.fr       */
+/*   Created: 2019/02/04 18:21:50 by chermist          #+#    #+#             */
+/*   Updated: 2019/10/11 00:13:04 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "queue.h"
+#include "ft_printf.h"
 
-void	ft_qclear(t_queue *q)
+int		count_utf_bytes(int c)
 {
-	if (q)
-	{
-		if (q->data)
-			ft_memdel(&q->data);
-		q->elems = 0;
-		q->size = 0;
-		q->front = 0;
-		q->rear = q->capacity - 1;
-	}
+	if (c < 256)
+		return (1);
+	else if (c < 2048)
+		return (2);
+	else if (c < 65536)
+		return (3);
+	else if (c < 2097152)
+		return (4);
+	return (0);
 }

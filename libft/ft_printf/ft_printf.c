@@ -1,36 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lem_in.c                                           :+:      :+:    :+:   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/05 16:48:34 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/11 00:43:52 by chermist         ###   ########.fr       */
+/*   Created: 2019/02/17 16:27:33 by chermist          #+#    #+#             */
+/*   Updated: 2019/10/10 22:28:55 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem_in.h"
+#include "ft_printf.h"
 
-void	use_shortest(t_support *sup, t_vec *paths)
+int			ft_printf(const char *format, ...)
 {
-	int	i;
-	t_vec *path;
-	t_lem *room;
-	
-	i = 0;
-	path = *(t_vec**)ft_vat(paths, 0);
-	while (++i < path->size)
-	{
-		room = *(t_lem**)ft_vat(path, i);
-		ft_printf("L1-%s\n", room->name);
-	}
+	int		result;
+	va_list ap;
 
-}
-
-void	deal_conflict(t_support *sup, t_vec *paths)
-{
-	if (sup->ants == 1 || paths->size == 1)
-		use_shortest(sup, paths);
-
+	va_start(ap, format);
+	result = parse(format, ap);
+	va_end(ap);
+	return (result);
 }

@@ -69,4 +69,6 @@ int				make_tube(char *str, t_support *sup);
 t_lem			*tree_make(t_support *sup);
 void			path_find(t_support *sup);
 
+void			deal_conflict(t_support *sup, t_vec *paths);
+
 #endif
