@@ -25,6 +25,13 @@
 # define GRAY 1
 # define BLACK 2
 
+typedef struct	s_path
+{
+	int			flow;
+	int			num;
+	t_vec		*paths;
+}				t_path;
+
 typedef struct	s_lem
 {
 	char		*name;
@@ -33,8 +40,9 @@ typedef struct	s_lem
 	int			mark;
 	int			val;
 	int			ants;
-	int			room_status;
+	int			status;
 	t_vec		*tubes;
+	t_vec		*forks;
 }				t_lem;
 
 typedef struct	s_opt
@@ -70,5 +78,7 @@ t_lem			*tree_make(t_support *sup);
 void			path_find(t_support *sup);
 
 void			deal_conflict(t_support *sup, t_vec *paths);
+
+void			print_path(t_vec *path);
 
 #endif

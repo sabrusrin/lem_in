@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:47 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/08 23:15:49 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/12 00:53:15 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ t_lem	*make_room(char *str, t_support *sup)
 	room->name = ft_strdup(tmp[0]);
 	room->x_coor = ft_atoi(tmp[1]);
 	room->y_coor = ft_atoi(tmp[2]);
-	room->room_status = 0;
+	room->status = 0;
 	room->mark = 0;
 	room->val = 0;
 	del_valid_arr(tmp);
@@ -106,12 +106,12 @@ t_lem	*make_important_room(int status, t_support *sup)
 		room = make_room(str, sup);
 		if (status == 1)
 		{
-			room->room_status = 1;
+			room->status = 1;
 			sup->start_mark++;
 		}
 		else if (status == 2)
 		{
-			room->room_status = 2;
+			room->status = 2;
 			sup->end_mark++;
 		}
 		return (room);
