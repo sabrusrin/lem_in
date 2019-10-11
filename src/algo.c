@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:29 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/11 00:43:54 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/12 02:11:03 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,10 @@ void	bfs(t_lem *start, t_vec *paths, t_queue *q)
 //		print_path(path);
 		start = *(t_lem**)ft_vback(path);
 //		printf("\n[%s]->", start->name);
-		if (start->room_status == 2)
+		if (start->status == 2)
 		{
 			ft_vpush_back(paths, &path, sizeof(t_vec*));
-//			print_path(path);
+			print_path(path);
 			continue;
 		}
 		i = -1;
@@ -105,7 +105,7 @@ void	bfs(t_lem *start, t_vec *paths, t_queue *q)
 			room = *(t_lem**)ft_vat(start->tubes, i);
 //			if (check_path(path, room))
 			if ((room->mark == 0 || room->mark >= start->mark
-				|| start->tubes->size == 1 || room->room_status == 2)
+				|| start->tubes->size == 1 || room->status == 2)
 				&& check_path(path, room))
 			{
 				if (room->mark == 0 || room->mark > start->mark + 1)
@@ -134,18 +134,23 @@ void	path_find(t_support *sup)
 	while (++i < sup->farm->size)
 	{
 		room = *(t_lem**)ft_vat(sup->farm, i);
-		if (room->room_status == 1)
+		if (room->status == 1)
 		{
 			paths = ft_vnew(sup->farm->size, sizeof(t_vec*));
 			q = ft_qnew(1000000, sizeof(t_vec*));
-			if (sup->opt.nomap == 0)
-				print_in(sup);
 			bfs(room, paths, q);
 			break;
 		}
 	}
 	if (paths->size)
-		deal_conflict(sup, paths);
+	{
+			if (sup->opt.nomap == 0)
+				print_in(sup);
+			room->ants = sup->ants;
+			deal_conflict(sup, paths);
+	}
+	else
+		ft_printf("Error");
 //	have to find unintersecting ways
 //
 //	max_flow(paths);
