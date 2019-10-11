@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_qclear.c                                        :+:      :+:    :+:   */
+/*   l_ft_putstr.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chermist <chermist@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/01 01:50:04 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/11 00:22:22 by chermist         ###   ########.fr       */
+/*   Created: 2019/10/10 23:31:45 by chermist          #+#    #+#             */
+/*   Updated: 2019/10/11 00:13:04 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "queue.h"
+#include "libft.h"
 
-void	ft_qclear(t_queue *q)
+int	l_ft_putstr(int *s, int i)
 {
-	if (q)
+	int count;
+
+	count = 0;
+	if (!s)
+		return (0);
+	while (*s && i--)
 	{
-		if (q->data)
-			ft_memdel(&q->data);
-		q->elems = 0;
-		q->size = 0;
-		q->front = 0;
-		q->rear = q->capacity - 1;
+		count += l_ft_putchar(*s);
+		s++;
 	}
+	return (count);
 }

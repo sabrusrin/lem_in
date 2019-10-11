@@ -1,26 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_qclear.c                                        :+:      :+:    :+:   */
+/*   l_ft_putnbr.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chermist <chermist@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/01 01:50:04 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/11 00:22:22 by chermist         ###   ########.fr       */
+/*   Created: 2019/10/10 23:42:15 by chermist          #+#    #+#             */
+/*   Updated: 2019/10/11 00:13:04 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "queue.h"
+#include "libft.h"
 
-void	ft_qclear(t_queue *q)
+void	l_ft_putnbr(long long n)
 {
-	if (q)
+	if (n == INT64_MIN)
 	{
-		if (q->data)
-			ft_memdel(&q->data);
-		q->elems = 0;
-		q->size = 0;
-		q->front = 0;
-		q->rear = q->capacity - 1;
+		ft_putstr("9223372036854775808");
+		return ;
 	}
+	if (n < 0)
+	{
+		write(1, "-", 1);
+		n *= -1;
+	}
+	if (n < 10)
+	{
+		ft_putchar(n + '0');
+		return ;
+	}
+	ft_putnbr(n / 10);
+	ft_putchar((n % 10) + '0');
 }

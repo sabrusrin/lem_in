@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:29 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/09 23:34:14 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/11 00:43:54 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	bfs(t_lem *start, t_vec *paths, t_queue *q)
 		if (start->room_status == 2)
 		{
 			ft_vpush_back(paths, &path, sizeof(t_vec*));
-			print_path(path);
+//			print_path(path);
 			continue;
 		}
 		i = -1;
@@ -144,7 +144,10 @@ void	path_find(t_support *sup)
 			break;
 		}
 	}
-//	deal_conflict(sup, paths);
+	if (paths->size)
+		deal_conflict(sup, paths);
+//	have to find unintersecting ways
+//
 //	max_flow(paths);
 	clean_up(paths, q);
 }
