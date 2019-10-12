@@ -28,6 +28,7 @@
 typedef struct	s_path
 {
 	int			flow;
+	int			pflow;
 	int			num;
 	t_vec		*paths;
 }				t_path;
