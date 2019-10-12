@@ -53,7 +53,9 @@ int		find_packs(t_vec *flows, t_vec *paths, t_support *sup)
 	i = -1;
 	while (++i < paths->size)
 	{
+		ft_putchar('&');
 		path = *(t_vec**)ft_vat(paths, i);
+		print_path(path);
 		pack = malloc(sizeof(t_path));
 		pack->flow = path->size - 1;
 		pack->num = 1;
@@ -66,6 +68,7 @@ int		find_packs(t_vec *flows, t_vec *paths, t_support *sup)
 			//check for crossintersection in paths found
 			if (check_conflict(pack, chk))
 			{
+			print_path(chk);
 				pack->flow += chk->size - 1;
 				pack->num += 1;
 				//segfault here
@@ -80,6 +83,8 @@ int		find_packs(t_vec *flows, t_vec *paths, t_support *sup)
 			}
 		}
 		pack->flow = pack->flow / pack->num + (sup->ants - pack->num) / pack->num;
+		ft_putnbr(pack->flow);
+		ft_putstr("&\n");
 	}
 	return (0);
 }
@@ -121,7 +126,7 @@ void	deal_conflict(t_support *sup, t_vec *paths)
 	find_packs(flows, paths, sup);
 	flow = 0;
 	i = -1;
-	write(1, "HERE", 4);
+//	write(1, "HERE", 4);
 	while (++i < flows->size)
 	{
 		packs = *(t_path**)ft_vat(flows, i);
