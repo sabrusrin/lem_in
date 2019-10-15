@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:34 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/15 03:09:49 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/15 20:48:12 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,36 @@ int		find_packs(t_vec *flows, t_vec *paths, t_support *sup)
 }
 
 //void	chk_flow(t_vec *p);
+int		check_weight(t_vec *paths, t_vec *path, int j, int ants)
+{
+	t_vec *p;
+	int	flow;
+	int	pflow;
+	int	minf;
+	int	i;
+
+	minf = 0;
+	i = -1;
+	flow = 0;
+	while (++i <= j)
+	{
+		p = *(t_vec**)ft_vat(paths, i);
+		flow += p->size - 1;
+		i++;
+//		pflow = flow / i + (ants - i) / i;
+		pflow = ((flow - i) + (ants - i)) / i;
+		i--;
+		if (!minf || (minf > pflow))
+			minf = pflow;
+		if (pflow > minf && p == path)
+		{
+//			ft_printf("%d %d %d\n", i, j, ants);
+			return (0);
+		}
+	}
+	return (1);
+}
+
 void	print_moves(t_vec *p, t_support *sup)
 {
 	int		i;
@@ -124,7 +154,8 @@ void	print_moves(t_vec *p, t_support *sup)
 			while (++j < path->size && l < sup->ants)
 			{
 				room = *(t_lem**)ft_vat(path, j);
-				if (room->status == 1 && room->ants)
+				if (room->status == 1 && room->ants &&
+					check_weight(p, path, i, room->ants))
 				{
 					count++;
 					room->ants--;
