@@ -1,0 +1,42 @@
+20
+a 0 0
+##start
+b 0 4
+c 2 2
+d 4 0
+e 3 4
+f 6 2
+g 6 4
+h 5 7
+i 9 0
+j 9 4
+k 9 6
+l 7 8
+##end
+m 12 4
+n 12 8
+a-b
+b-e
+e-g
+g-j
+j-m
+#comment
+a-d
+d-i
+i-j
+b-c
+c-f
+f-g
+e-h
+h-l
+l-n
+n-m
+g-k
+k-m
+L1-e L2-a L3-c 
+L4-e L1-h L5-a L2-d L6-c L3-f 
+L7-e L4-h L1-l L8-a L5-d L2-i L9-c L6-f L3-g 
+L10-e L7-h L4-l L1-n L11-a L8-d L5-i L2-j L12-c L9-f L6-g L3-k 
+L13-e L10-h L7-l L4-n L1-m L14-a L11-d L8-i L5-j L2-m L15-c L12-f L9-g L6-k L3-m 
+L16-e L13-h L10-l L7-n L4-m L17-a L14-d L11-i L8-j L5-m L18-c L15-f L12-g L9-k L6-m 
+L19-e L16-h L13-l L10-n L7-m L20-a L17-d L14-i L11-j L8-m 

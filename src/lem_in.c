@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:34 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/13 00:28:24 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/15 03:09:49 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,30 +62,27 @@ int		find_packs(t_vec *flows, t_vec *paths, t_support *sup)
 {
 	int		i;
 	int		j;
-	int		minf;
-	int		minn;
 	t_vec	*path;
 	t_vec	*chk;
 	t_path	*pack;
 
 	i = -1;
-	minf = 0;
 	while (++i < paths->size)
 	{
-		ft_printf("&");
+//		ft_printf("&");
 		path = *(t_vec**)ft_vat(paths, i);
 //		print_path(path);
 		pack = malloc(sizeof(t_path));
 		pack->flow = path->size - 1;
 		pack->num = 1;
+		pack->pflow = pack->flow / pack->num +
+			(sup->ants - pack->num) / pack->num;
 		pack->paths = ft_vnew(20, sizeof(t_vec*));
 		ft_vpush_back(pack->paths, &path, sizeof(t_vec*));
-		j = 0;
-		minf = 0;
+		j = -1;
 		while (++j < paths->size)
 		{
 			chk = *(t_vec**)ft_vat(paths, j);
-			//check for crossintersection in paths found
 			if (check_conflict(pack, chk))
 			{
 //			print_path(chk);
@@ -93,23 +90,69 @@ int		find_packs(t_vec *flows, t_vec *paths, t_support *sup)
 				pack->num += 1;
 				pack->pflow = pack->flow / pack->num +
 					(sup->ants - pack->num) / pack->num;
-//					ft_printf("^%d^", pack->pflow);
 				ft_vpush_back(pack->paths, &chk, sizeof(t_vec*));
-				//if found an unintersecting path => create a new pack duplicating
-				//prev pack->paths, so we would have packs in ascending order
 			}
 		}
-//		else
-//			pack->pflow = 0;
-//		ft_printf("|%d|\n", minf);
 		ft_vpush_back(flows, &pack, sizeof(t_path*));
-	//	ft_printf("%d \n", pack->flow);
 	}
 
 	return (0);
 }
 
-void	chk_pack(t_vec *p);
+//void	chk_flow(t_vec *p);
+void	print_moves(t_vec *p, t_support *sup)
+{
+	int		i;
+	int		j;
+	int		k;
+	int		l;
+	int		count;
+	int		ants;
+	t_lem	*room;
+	t_vec	*path;
+
+	count = 0;
+	l = 0;
+	while (l < sup->ants)
+	{
+		i = -1;
+		while (++i < p->size && l < sup->ants)
+		{
+			path = *(t_vec**)ft_vat(p, i);
+			j = -1;
+			k = 0;
+			while (++j < path->size && l < sup->ants)
+			{
+				room = *(t_lem**)ft_vat(path, j);
+				if (room->status == 1 && room->ants)
+				{
+					count++;
+					room->ants--;
+					k = count;
+					continue;
+				}
+				if (room->status != 1)
+				{
+					if (k)
+					{
+						ft_printf("L%d-%s ", k, room->name);
+						ants = room->ants;
+						room->ants = k;
+						k = ants;
+						if (room->status == 2)
+							l++;
+					}
+					else if (room->ants && room->status != 2)
+					{
+						k = room->ants;
+						room->ants = 0;
+					}
+				}
+			}
+		}
+		write(1, "\n", 1);
+	}
+}
 
 void	deal_conflict(t_support *sup, t_vec *paths)
 {
@@ -140,42 +183,26 @@ void	deal_conflict(t_support *sup, t_vec *paths)
 			{
 				p = packs->paths;
 				flow = packs->pflow;
+//				ft_printf("\n#%d#\n", flow);
 			}
 		}
 		i = -1;
 		if (p)
 		{
+			print_moves(p, sup);
 			i = -1;
 			//I have a pack of unintersecting paths, do I need all of them?
-//			chk_pack(p);
-			ft_printf("*\n");
+	//		chk_flow(p);
+			//ft_printf("*\n");
+	//		ft_printf("*%d", p->size);
 			while (++i < p->size)
 			{
 				path = *(t_vec**)ft_vat(p, i);
-				print_path(path);
+//			print_path(path);
+
 			}
-			ft_printf("*");
+	//		ft_printf("*");
 		}
 	}
-//	find all min_val unintersecting paths
+//	clean_all(flows);
 }
-
-void	chk_pack(t_vec *p)
-{
-
-}
-/*
- 				if (!minf || (minf > pack->pflow && pack->pflow))
-				{
-					minf = pack->pflow;
-					minn = pack->num;
-				}
-				else
-					break;
-//				if (minf && minf < pack->pflow)
-//				{
-//					ft_printf("^%d^", pack->pflow);
-//					pack->pflow = 0;
-//					break;
-//				}
-*/
