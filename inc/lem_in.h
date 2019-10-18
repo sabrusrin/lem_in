@@ -74,6 +74,7 @@ t_lem			*make_room(char *str, t_support *sup);
 t_lem			*make_important_room(int status, t_support *sup);
 void			tube_connect(t_lem *start, t_lem *end);
 int				make_tube(char *str, t_support *sup);
+int				check_id(char *str, t_support *sup);
 
 t_lem			*tree_make(t_support *sup);
 void			path_find(t_support *sup);

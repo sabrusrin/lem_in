@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:47 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/12 00:53:15 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/18 23:44:53 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,23 +75,28 @@ t_lem	*make_room(char *str, t_support *sup)
 	int		i;
 
 	i = -1;
-	if (!(room = ft_memalloc(sizeof(t_lem))))
-		ft_alarm(tmp, sup);
-	if (!(room->tubes = ft_vnew(5, sizeof(t_lem*))))
-		ft_alarm(tmp, sup);
 	tmp = ft_strsplit(str, ' ');
-	while (sup->farm->size > ++i && (vat = ((t_lem*)ft_vat(sup->farm, i))))
-		if (!(ft_strcmp(vat->name, tmp[0])) || (vat->x_coor == ft_atoi(tmp[1])
-			&& (vat->y_coor == ft_atoi(tmp[2]))))
+	if (check_id(tmp[0], sup))
+	{
+		if (!(room = ft_memalloc(sizeof(t_lem))))
 			ft_alarm(tmp, sup);
-	room->name = ft_strdup(tmp[0]);
-	room->x_coor = ft_atoi(tmp[1]);
-	room->y_coor = ft_atoi(tmp[2]);
-	room->status = 0;
-	room->mark = 0;
-	room->val = 0;
+		if (!(room->tubes = ft_vnew(5, sizeof(t_lem*))))
+			ft_alarm(tmp, sup);
+		while (sup->farm->size > ++i && (vat = ((t_lem*)ft_vat(sup->farm, i))))
+			if (!(ft_strcmp(vat->name, tmp[0])) || (vat->x_coor == ft_atoi(tmp[1])
+				&& (vat->y_coor == ft_atoi(tmp[2]))))
+				ft_alarm(tmp, sup);
+		room->name = ft_strdup(tmp[0]);
+		room->x_coor = ft_atoi(tmp[1]);
+		room->y_coor = ft_atoi(tmp[2]);
+		room->status = 0;
+		room->mark = 0;
+		room->val = 0;
+		del_valid_arr(tmp);
+		return (room);
+	}
 	del_valid_arr(tmp);
-	return (room);
+	return (NULL);
 }
 
 t_lem	*make_important_room(int status, t_support *sup)
@@ -103,18 +108,20 @@ t_lem	*make_important_room(int status, t_support *sup)
 	ft_vpush_back(sup->in, &str, sizeof(char*));
 	if (command_valid(str, sup) == 2)
 	{
-		room = make_room(str, sup);
-		if (status == 1)
+		if ((room = make_room(str, sup)))
 		{
-			room->status = 1;
-			sup->start_mark++;
+			if (status == 1)
+			{
+				room->status = 1;
+				sup->start_mark++;
+			}
+			else if (status == 2)
+			{
+				room->status = 2;
+				sup->end_mark++;
+			}
+			return (room);	
 		}
-		else if (status == 2)
-		{
-			room->status = 2;
-			sup->end_mark++;
-		}
-		return (room);
 	}
 	else
 		ft_alarm(NULL, sup);

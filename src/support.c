@@ -6,7 +6,7 @@
 /*   By: lkarlon- <lkarlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/08 19:42:03 by lkarlon-          #+#    #+#             */
-/*   Updated: 2019/09/19 04:57:22 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/18 23:44:46 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,21 @@ t_support	*support_struct_init(void)
 	sup->start_mark = 0;
 	sup->end_mark = 0;
 	return (sup);
+}
+
+int			check_id(char *str, t_support *sup)
+{
+	int		i;
+	t_lem	*room;
+
+	i = -1;
+	while (++i < sup->farm->size)
+	{
+		room = *(t_lem**)ft_vat(sup->farm, i);
+		if (ft_strstr(str, room->name))
+			return (0);
+	}
+	return (1);
 }
 
 void		tube_connect(t_lem *start, t_lem *end)
