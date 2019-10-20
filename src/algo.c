@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:29 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/18 23:44:55 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/20 23:45:45 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,6 @@ void	bfs(t_lem *start, t_vec *paths, t_queue *q)
 			{
 				if (room->mark == 0 || room->mark > start->mark + 1)
 					room->mark = start->mark + 1;
-//				printf("|%s|%d|\n", room->name, room->mark);
-//				printf("|%s|\n", room->name);
 				newpath = ft_vdup(path);
 				ft_vpush_back(newpath, &room, sizeof(t_lem*));
 				ft_qpush(q, &newpath);
@@ -140,7 +138,7 @@ void	path_find(t_support *sup)
 		{
 			paths = ft_vnew(sup->farm->size, sizeof(t_vec*));
 			q = ft_qnew(1000000, sizeof(t_vec*));
-			ft_printf("\n#%d#\n", sup->farm->size);
+//			ft_printf("\n#%d#\n", sup->farm->size);
 			bfs(room, paths, q);
 			break;
 		}
@@ -151,7 +149,7 @@ void	path_find(t_support *sup)
 				print_in(sup);
 			room->ants = sup->ants;
 //			ft_printf("\n#%d#\n", paths->size);
-//			deal_conflict(sup, paths);
+			lem_in(sup, paths);
 	}
 	else
 		ft_printf("Error");

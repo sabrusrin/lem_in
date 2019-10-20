@@ -79,8 +79,9 @@ int				check_id(char *str, t_support *sup);
 t_lem			*tree_make(t_support *sup);
 void			path_find(t_support *sup);
 
-void			deal_conflict(t_support *sup, t_vec *paths);
+void			lem_in(t_support *sup, t_vec *paths);
 
 void			print_path(t_vec *path);
+void			print_moves(t_vec *p, t_support *sup);
 
 #endif

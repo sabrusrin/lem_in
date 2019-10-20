@@ -6,58 +6,58 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:34 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/15 20:48:12 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/20 23:46:44 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void	use_shortest(t_support *sup, t_vec *paths)
+void	clean_all(t_vec *flows)
 {
-	int	i;
-	t_vec *path;
-	t_lem *room;
-	
-	i = 0;
-	path = *(t_vec**)ft_vat(paths, 0);
-	while (++i < path->size)
-	{
-		room = *(t_lem**)ft_vat(path, i);
-		ft_printf("L1-%s\n", room->name);
-	}
+	int		i;
+	t_path	*pack;
 
+	if (flows)
+	{
+		i = -1;
+		while (++i < flows->size)
+		{
+			pack = *(t_path**)ft_vat(flows, i);
+			ft_vdel(&pack->paths);
+			ft_memdel((void**)&pack);
+		}
+		ft_vdel(&flows);
+	}
 }
 
 int		check_conflict(t_path *pack, t_vec *chk)
 {
-	int	i;
-	int	j;
-	int	k;
+	int	i[3];
 	t_vec	*path;
 	t_lem	*r;
 	t_lem	*rc;
 	
-	i = -1;
-	while (++i < pack->paths->size)
+	i[0] = -1;
+	while (++i[0] < pack->paths->size && (i[1] = -1))
 	{
-		path = *(t_vec**)ft_vat(pack->paths, i);
-		j = -1;
-		while (++j < path->size)
+		path = *(t_vec**)ft_vat(pack->paths, i[0]);
+		while (++i[1] < path->size && (i[2] = -1))
 		{
-			r = *(t_lem**)ft_vat(path, j);
-			k = -1;
-			while (++k < chk->size)
+			r = *(t_lem**)ft_vat(path, i[1]);
+			while (++i[2] < chk->size)
 			{
-				rc = *(t_lem**)ft_vat(chk, k);
-				if (r == rc && 
+				rc = *(t_lem**)ft_vat(chk, i[2]);
+				if ((r == rc && 
 					!((r->status == 1 && rc->status == 1) ||
-					(r->status == 2 && rc->status == 2)))
+					(r->status == 2 && rc->status == 2))) ||
+					chk == path)
 					return (0);
 			}
 		}
 	}
 	return (1);
 }
+
 int		find_packs(t_vec *flows, t_vec *paths, t_support *sup)
 {
 	int		i;
@@ -69,9 +69,7 @@ int		find_packs(t_vec *flows, t_vec *paths, t_support *sup)
 	i = -1;
 	while (++i < paths->size)
 	{
-//		ft_printf("&");
 		path = *(t_vec**)ft_vat(paths, i);
-//		print_path(path);
 		pack = malloc(sizeof(t_path));
 		pack->flow = path->size - 1;
 		pack->num = 1;
@@ -85,7 +83,6 @@ int		find_packs(t_vec *flows, t_vec *paths, t_support *sup)
 			chk = *(t_vec**)ft_vat(paths, j);
 			if (check_conflict(pack, chk))
 			{
-//			print_path(chk);
 				pack->flow += chk->size - 1;
 				pack->num += 1;
 				pack->pflow = pack->flow / pack->num +
@@ -95,145 +92,45 @@ int		find_packs(t_vec *flows, t_vec *paths, t_support *sup)
 		}
 		ft_vpush_back(flows, &pack, sizeof(t_path*));
 	}
-
 	return (0);
 }
 
-//void	chk_flow(t_vec *p);
-int		check_weight(t_vec *paths, t_vec *path, int j, int ants)
+void	lem_in(t_support *sup, t_vec *paths)
 {
-	t_vec *p;
-	int	flow;
-	int	pflow;
-	int	minf;
-	int	i;
-
-	minf = 0;
-	i = -1;
-	flow = 0;
-	while (++i <= j)
-	{
-		p = *(t_vec**)ft_vat(paths, i);
-		flow += p->size - 1;
-		i++;
-//		pflow = flow / i + (ants - i) / i;
-		pflow = ((flow - i) + (ants - i)) / i;
-		i--;
-		if (!minf || (minf > pflow))
-			minf = pflow;
-		if (pflow > minf && p == path)
-		{
-//			ft_printf("%d %d %d\n", i, j, ants);
-			return (0);
-		}
-	}
-	return (1);
-}
-
-void	print_moves(t_vec *p, t_support *sup)
-{
-	int		i;
-	int		j;
-	int		k;
-	int		l;
-	int		count;
-	int		ants;
-	t_lem	*room;
-	t_vec	*path;
-
-	count = 0;
-	l = 0;
-	while (l < sup->ants)
-	{
-		i = -1;
-		while (++i < p->size && l < sup->ants)
-		{
-			path = *(t_vec**)ft_vat(p, i);
-			j = -1;
-			k = 0;
-			while (++j < path->size && l < sup->ants)
-			{
-				room = *(t_lem**)ft_vat(path, j);
-				if (room->status == 1 && room->ants &&
-					check_weight(p, path, i, room->ants))
-				{
-					count++;
-					room->ants--;
-					k = count;
-					continue;
-				}
-				if (room->status != 1)
-				{
-					if (k)
-					{
-						ft_printf("L%d-%s ", k, room->name);
-						ants = room->ants;
-						room->ants = k;
-						k = ants;
-						if (room->status == 2)
-							l++;
-					}
-					else if (room->ants && room->status != 2)
-					{
-						k = room->ants;
-						room->ants = 0;
-					}
-				}
-			}
-		}
-		write(1, "\n", 1);
-	}
-}
-
-void	deal_conflict(t_support *sup, t_vec *paths)
-{
-	t_vec *flows;
-	t_vec *path;
-	t_vec *p;
+	t_vec	*flows;
 	t_path	*packs;
-	int		i;
+	int		i[2];
 	int		flow;
 
-	flows = NULL;
-	p = NULL;
-	if (sup->ants == 1 || paths->size == 1)
+	flows = ft_vnew(paths->size, sizeof(t_path*));
+	find_packs(flows, paths, sup);
+	flow = 0;
+	i[0] = -1;
+	i[1] = 0;
+	while (++i[0] < flows->size)
 	{
-		use_shortest(sup, paths);
-		return ;
-	}
-	else
-	{
-		flows = ft_vnew(paths->size, sizeof(t_path*));
-		find_packs(flows, paths, sup);
-		flow = 0;
-		i = -1;
-		while (++i < flows->size)
+		packs = *(t_path**)ft_vat(flows, i[0]);
+		if ((!flow || packs->pflow < flow) && packs->pflow)
 		{
-			packs = *(t_path**)ft_vat(flows, i);
-			if ((!flow || packs->pflow < flow) && packs->pflow)
-			{
-				p = packs->paths;
-				flow = packs->pflow;
-//				ft_printf("\n#%d#\n", flow);
-			}
-		}
-		i = -1;
-		if (p)
-		{
-			print_moves(p, sup);
-			i = -1;
-			//I have a pack of unintersecting paths, do I need all of them?
-	//		chk_flow(p);
-			//ft_printf("*\n");
-	//		ft_printf("*%d", p->size);
-			while (++i < p->size)
-			{
-				path = *(t_vec**)ft_vat(p, i);
-//			print_path(path);
-
-			}
-	//		ft_printf("*");
+			i[1] = i[0];
+			flow = packs->pflow;
 		}
 	}
-//	clean_all(flows);
+	packs = *(t_path**)ft_vat(flows, i[1]);
+	if (packs)
+		print_moves(packs->paths, sup);
+	clean_all(flows);
 }
+
+/*
+ 	if (p)
+	{
+		i = -1;
+		while (++i < p->size)
+		{
+			path = *(t_vec**)ft_vat(p, i);
+			print_path(path);
+		}
+	}
+ 
+ */

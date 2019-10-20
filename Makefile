@@ -6,7 +6,7 @@
 #    By: lkarlon- <lkarlon-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/04 18:07:03 by chermist          #+#    #+#              #
-#    Updated: 2019/10/11 18:31:55 by chermist         ###   ########.fr        #
+#    Updated: 2019/10/20 19:54:59 by chermist         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SRC = 	main.c \
 		parse.c \
 	  	algo.c \
 		lem_in.c \
+		moves.c
 
 OBJ = $(SRC:.c=.o)
 
