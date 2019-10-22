@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:39 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/22 16:02:21 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/22 17:13:30 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_lem	*tree_make(t_support *sup)
 	}
 	return (NULL);
 }
-
+/* 
 void	options(char *av, t_opt *opt)
 {
 	if (!ft_strcmp("--help", av[1]))
@@ -81,24 +81,24 @@ void	options(char *av, t_opt *opt)
 		opt->nomap = 1;
 	else if (!ft_strcmp("--nomap", av[1]))
 		opt->nomap = 1;
-}
+} */
 
 int		main(int ac, char **av)
 {
 	t_lem		*start;
 	t_support	*sup;
 	t_lem		*tmp;
-	t_visu		visu;
+	//t_visu		visu;
 	t_opt		opt;
 	
-	if (ac > 1)
-	options(av[1], &opt);
+//	if (ac > 1)
+//	options(av[1], &opt);
 
 	sup = support_struct_init();
 	sup->opt = opt;
 	start = tree_make(sup);
-	if (opt.visu)
-		visu_init(sup, &visu);
+	//if (opt.visu)
+//		visu_init(sup, &visu);
 	path_find(sup);
 	
 	del_farm(sup);
