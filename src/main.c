@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkarlon- <lkarlon-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:39 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/20 23:46:20 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/22 16:02:21 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,36 +64,41 @@ t_lem	*tree_make(t_support *sup)
 	return (NULL);
 }
 
+void	options(char *av, t_opt *opt)
+{
+	if (!ft_strcmp("--help", av[1]))
+	{
+		ft_putstr("usage: ./lem-in [option] < graph\n");
+		ft_putstr("options:\n\t--help : to read the manual\n");
+		ft_putstr("\t--visu : to start with visualizer\n");
+		ft_putstr("\t--paths : to print paths discovered\n");
+		ft_putstr("\t--nomap : to print instructions only\n");
+		return (0);
+	}
+	else if (!ft_strcmp("--visu", av[1]))
+		opt->visu = 1;
+	else if (!ft_strcmp("--paths", av[1]))
+		opt->nomap = 1;
+	else if (!ft_strcmp("--nomap", av[1]))
+		opt->nomap = 1;
+}
+
 int		main(int ac, char **av)
 {
 	t_lem		*start;
 	t_support	*sup;
 	t_lem		*tmp;
+	t_visu		visu;
 	t_opt		opt;
 	
 	if (ac > 1)
-	{
-		if (!ft_strcmp("--help", av[1]))
-		{
-			ft_putstr("usage: ./lem-in [option] < graph\n");
-			ft_putstr("options:\n\t--help : to read the manual\n");
-			ft_putstr("\t--visu : to start with visualizer\n");
-			ft_putstr("\t--paths : to print paths discovered\n");
-			ft_putstr("\t--nomap : to print instructions only\n");
-			return (0);
-		}
-		if (!ft_strcmp("--visu", av[1]))
-			opt.visu = 1;
-		else if (!ft_strcmp("--paths", av[1]))
-			opt.nomap = 1;
-		else if (!ft_strcmp("--nomap", av[1]))
-			opt.nomap = 1;
-	}
+	options(av[1], &opt);
+
 	sup = support_struct_init();
-//	if (opt.visu)
-//		visu_init();
 	sup->opt = opt;
 	start = tree_make(sup);
+	if (opt.visu)
+		visu_init(sup, &visu);
 	path_find(sup);
 	
 	del_farm(sup);

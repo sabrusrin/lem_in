@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sdl_line.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: chermist <chermist@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 01:07:24 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/22 12:44:46 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/22 15:06:22 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int main(void) {
 
     SDL_Init(SDL_INIT_VIDEO);
     SDL_CreateWindowAndRenderer(WINDOW_WIDTH, WINDOW_WIDTH, 0, &window, &renderer);
+//		SDL_RenderSetScale(renderer, 0.5, 0.5);
     SDL_SetRenderDrawColor(renderer, 10, 30, 41, 0);
     SDL_RenderClear(renderer);
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
@@ -34,11 +35,15 @@ int main(void) {
 	thickLineRGBA(renderer, 100, 50, 500, 550, 5, 102, 102, 102, 255);
 	filledCircleRGBA(renderer, 40, 40, 30, 70, 70, 75, 255);
     aacircleRGBA (renderer, 40, 40, 30, 255, 255, 255, 255);
+	//SDL_RenderClear(renderer);
 //	filledPieRGBA (renderer, 400, 100, 30, 10, 20, 200, 200, 200, SDL_ALPHA_OPAQUE);
     SDL_RenderPresent(renderer);
     while (1) {
-        if (SDL_PollEvent(&event) && event.type == SDL_QUIT)
-            break;
+        if (SDL_PollEvent(&event))
+		{
+			if ((event.type == SDL_QUIT) || (event.key.keysym.sym == SDLK_ESCAPE))
+				break;
+		}
     }
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
