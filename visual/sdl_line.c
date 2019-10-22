@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sdl_line.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chermist <chermist@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 01:07:24 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/22 01:42:12 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/22 12:44:46 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,15 @@ int main(void) {
 
     SDL_Init(SDL_INIT_VIDEO);
     SDL_CreateWindowAndRenderer(WINDOW_WIDTH, WINDOW_WIDTH, 0, &window, &renderer);
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+    SDL_SetRenderDrawColor(renderer, 10, 30, 41, 0);
     SDL_RenderClear(renderer);
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     for (i = 0; i < WINDOW_WIDTH; ++i)
         SDL_RenderDrawPoint(renderer, i, i);
 	SDL_RenderDrawLine(renderer, 50, 300, 450, 200);
-	thickLineRGBA(renderer, 100, 50, 500, 550, 5, 255, 255, 255, 50);
-	filledCircleRGBA(renderer, 40, 40, 30, 200, 200, 200,
-							SDL_ALPHA_OPAQUE);
+	thickLineRGBA(renderer, 100, 50, 500, 550, 5, 102, 102, 102, 255);
+	filledCircleRGBA(renderer, 40, 40, 30, 70, 70, 75, 255);
+    aacircleRGBA (renderer, 40, 40, 30, 255, 255, 255, 255);
 //	filledPieRGBA (renderer, 400, 100, 30, 10, 20, 200, 200, 200, SDL_ALPHA_OPAQUE);
     SDL_RenderPresent(renderer);
     while (1) {
