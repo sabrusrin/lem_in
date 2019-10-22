@@ -6,23 +6,29 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:22:28 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/22 16:18:02 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/23 01:27:30 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "visu.h"
+#include "lem_in.h"
 
-void	visu_init(t_support *sup, t_visu *visu)
+void	save_lines(t_support *sup, t_visu *v)
 {
-    int i;
 
-    SDL_Init(SDL_INIT_VIDEO);
-    SDL_CreateWindowAndRenderer(WINDOW_WIDTH, WINDOW_WIDTH, 0, &visu->window, &visu->renderer);
+}
+
+void	visu_init(t_support *sup, t_visu *v)
+{
+	int i;
+
+	SDL_Init(SDL_INIT_VIDEO);
+	SDL_CreateWindowAndRenderer(WINDOW_WIDTH, WINDOW_WIDTH, 0, &v->window, &v->renderer);
 //		SDL_RenderSetScale(renderer, 0.5, 0.5);
-    SDL_SetRenderDrawColor(visu->renderer, 10, 30, 41, 0);
-    SDL_RenderClear(visu->renderer);
-    SDL_SetRenderDrawColor(visu->renderer, 255, 0, 0, 255);
- /*    for (i = 0; i < WINDOW_WIDTH; ++i)
+	SDL_SetRenderDrawColor(v->rend, 10, 30, 41, 0);
+	SDL_RenderClear(v->rend);
+	SDL_SetRenderDrawColor(v->rend, 255, 0, 0, 255);
+	save_lines(sup, v);
+ 	 for (i = 0; i < WINDOW_WIDTH; ++i)
         SDL_RenderDrawPoint(renderer, i, i);
 	SDL_RenderDrawLine(renderer, 50, 300, 450, 200);
 	thickLineRGBA(renderer, 100, 50, 500, 550, 5, 102, 102, 102, 255);
@@ -41,5 +47,5 @@ void	visu_init(t_support *sup, t_visu *visu)
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
-    return EXIT_SUCCESS; */
+    return EXIT_SUCCESS; 
 }

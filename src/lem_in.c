@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:34 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/21 21:50:55 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/23 01:09:37 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,11 @@ int		find_packs(t_vec *flows, t_vec *paths, t_support *sup)
 	i[0] = -1;
 	while (++i[0] < paths->size && (path = *(t_vec**)ft_vat(paths, i[0])))
 	{
-		if ((pack = malloc(sizeof(t_path))))
+		if (!(pack = malloc(sizeof(t_path))))
 			return (0);
 		pack->flow = path->size - 1;
 		pack->pflow = pack->flow / 1 + (sup->ants - 1);
-		if ((pack->paths = ft_vnew(3, sizeof(t_vec*))))
+		if (!(pack->paths = ft_vnew(3, sizeof(t_vec*))))
 			return (0);
 		ft_vpush_back(pack->paths, &path, sizeof(t_vec*));
 		i[1] = -1;

@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:39 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/22 17:13:30 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/23 01:27:28 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,41 +63,47 @@ t_lem	*tree_make(t_support *sup)
 	}
 	return (NULL);
 }
-/* 
-void	options(char *av, t_opt *opt)
+
+int		options(char *av, t_opt *opt)
 {
-	if (!ft_strcmp("--help", av[1]))
+	opt->visu = 0;
+	opt->nomap = 0;
+	opt->paths = 0;
+	if (!ft_strcmp("--help", av))
 	{
 		ft_putstr("usage: ./lem-in [option] < graph\n");
 		ft_putstr("options:\n\t--help : to read the manual\n");
 		ft_putstr("\t--visu : to start with visualizer\n");
 		ft_putstr("\t--paths : to print paths discovered\n");
 		ft_putstr("\t--nomap : to print instructions only\n");
-		return (0);
+		return (1);
 	}
-	else if (!ft_strcmp("--visu", av[1]))
+	else if (!ft_strcmp("--visu", av))
 		opt->visu = 1;
-	else if (!ft_strcmp("--paths", av[1]))
+	else if (!ft_strcmp("--paths", av))
+		opt->paths = 1;
+	else if (!ft_strcmp("--nomap", av))
 		opt->nomap = 1;
-	else if (!ft_strcmp("--nomap", av[1]))
-		opt->nomap = 1;
-} */
+	return (0);
+}
 
 int		main(int ac, char **av)
 {
 	t_lem		*start;
 	t_support	*sup;
 	t_lem		*tmp;
-	//t_visu		visu;
+	t_visu		visu;
 	t_opt		opt;
 	
-//	if (ac > 1)
-//	options(av[1], &opt);
-
+	if (ac > 1)
+		if (options(av[1], &opt))
+			return (0);
 	sup = support_struct_init();
 	sup->opt = opt;
+	sup->cons = 0;
+	sup->lines = ft_vnew(200, sizeof(t_lines*));
 	start = tree_make(sup);
-	//if (opt.visu)
+//	if (opt.visu)
 //		visu_init(sup, &visu);
 	path_find(sup);
 	

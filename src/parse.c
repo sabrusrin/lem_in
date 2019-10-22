@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:47 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/18 23:44:53 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/23 01:27:31 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,34 +69,28 @@ int		command_valid(char *str, t_support *sup)
 
 t_lem	*make_room(char *str, t_support *sup)
 {
-	t_lem	*room;
-	t_lem	*vat;
-	char	**tmp;
-	int		i;
+	t_lem		*room;
+	t_lem		*vat;
+	char		**tmp;
+	int			i;
 
 	i = -1;
 	tmp = ft_strsplit(str, ' ');
-	if (check_id(tmp[0], sup))
-	{
-		if (!(room = ft_memalloc(sizeof(t_lem))))
+	if (!(room = ft_memalloc(sizeof(t_lem))))
+		ft_alarm(tmp, sup);
+	if (!(room->tubes = ft_vnew(5, sizeof(t_lem*))))
+		ft_alarm(tmp, sup);
+	while (sup->farm->size > ++i && (vat = ((t_lem*)ft_vat(sup->farm, i))))
+		if (!(ft_strcmp(vat->name, tmp[0])) || (vat->x_coor == ft_atoi(tmp[1])
+			&& (vat->y_coor == ft_atoi(tmp[2]))))
 			ft_alarm(tmp, sup);
-		if (!(room->tubes = ft_vnew(5, sizeof(t_lem*))))
-			ft_alarm(tmp, sup);
-		while (sup->farm->size > ++i && (vat = ((t_lem*)ft_vat(sup->farm, i))))
-			if (!(ft_strcmp(vat->name, tmp[0])) || (vat->x_coor == ft_atoi(tmp[1])
-				&& (vat->y_coor == ft_atoi(tmp[2]))))
-				ft_alarm(tmp, sup);
-		room->name = ft_strdup(tmp[0]);
-		room->x_coor = ft_atoi(tmp[1]);
-		room->y_coor = ft_atoi(tmp[2]);
-		room->status = 0;
-		room->mark = 0;
-		room->val = 0;
-		del_valid_arr(tmp);
-		return (room);
-	}
+	room->name = ft_strdup(tmp[0]);
+	room->x_coor = (int)ft_fabs(ft_atoi(tmp[1]));
+	room->y_coor = (int)ft_fabs(ft_atoi(tmp[2]));
+	room->status = 0;
+	room->mark = 0;
 	del_valid_arr(tmp);
-	return (NULL);
+	return (room);
 }
 
 t_lem	*make_important_room(int status, t_support *sup)
@@ -150,7 +144,7 @@ int		make_tube(char *str, t_support *sup)
 	}
 	if ((i = -1) && connect != 2)
 		ft_alarm(tmp, sup);
-	tube_connect(bend[0], bend[1]);
+	tube_connect(bend[0], bend[1], sup);
 	del_valid_arr(tmp);
 	return (1);
 }

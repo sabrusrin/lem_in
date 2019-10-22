@@ -6,17 +6,17 @@
 #    By: lkarlon- <lkarlon-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/04 18:07:03 by chermist          #+#    #+#              #
-#    Updated: 2019/10/20 19:54:59 by chermist         ###   ########.fr        #
+#    Updated: 2019/10/23 01:09:04 by chermist         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = lem-in
 
-CC = gcc
+CC = gcc `sdl2-config --cflags`
 
 INCDIR = -I libft/includes -I ./inc
 
-LIBDIR = -L ./libft
+LIBDIR = -L ./libft `sdl2-config --libs` -lSDL2_gfx -lSDL2_ttf -lm
 
 OBJDIR = ./obj
 

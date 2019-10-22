@@ -6,7 +6,7 @@
 /*   By: lkarlon- <lkarlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/08 19:42:03 by lkarlon-          #+#    #+#             */
-/*   Updated: 2019/10/18 23:44:46 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/23 01:27:32 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void		del_farm(t_support *sup)
 		if (sup->opt.nomap && (i = -1))
 		{
 			while (++i < sup->in->size &&
-				(str = *(char**)ft_vat(sup->in, i)))	
+				(str = *(char**)ft_vat(sup->in, i)))
 				ft_strdel(&str);
 			ft_vdel(&sup->in);
 		}
@@ -62,37 +62,29 @@ t_support	*support_struct_init(void)
 	return (sup);
 }
 
-int			check_id(char *str, t_support *sup)
-{
-	int		i;
-	t_lem	*room;
-
-	i = -1;
-	while (++i < sup->farm->size)
-	{
-		room = *(t_lem**)ft_vat(sup->farm, i);
-		if (ft_strstr(str, room->name))
-			return (0);
-	}
-	return (1);
-}
-
-void		tube_connect(t_lem *start, t_lem *end)
+void		tube_connect(t_lem *start, t_lem *end, t_support *sup)
 {
 	int		i;
 	int		con;
 	t_lem	*room;
+	t_lines	*line;
 
 	ft_vpush_back(start->tubes, &end, sizeof(t_lem*));
+	if (sup->opt.visu && (line = malloc(sizeof(t_lines*))))
+	{
+		line->a = start;
+		line->b = end;
+		ft_vpush_back(sup->lines, &line, sizeof(t_lines*));
+		sup->cons += 1;
+	}
 	i = -1;
 	con = 1;
-	while (++i < end->tubes->size)
+	while (++i < end->tubes->size && (room = *(t_lem**)ft_vat(end->tubes, i)))
 	{
-		room = *(t_lem**)ft_vat(end->tubes, i);
 		if (ft_strstr(start->name, room->name))
 		{
 			con = 0;
-			break;
+			break ;
 		}
 	}
 	if (con)
