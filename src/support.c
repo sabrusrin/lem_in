@@ -6,7 +6,7 @@
 /*   By: lkarlon- <lkarlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/08 19:42:03 by lkarlon-          #+#    #+#             */
-/*   Updated: 2019/10/23 01:27:32 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/23 14:31:32 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,11 @@ void		del_farm(t_support *sup)
 			ft_vdel(&sup->in);
 		}
 		ft_vdel(&sup->farm);
-		ft_memdel((void**)&sup);
 	}
 }
 
-t_support	*support_struct_init(void)
+void	support_struct_init(t_support *sup)
 {
-	t_support *sup;
-
-	if (!(sup = ft_memalloc(sizeof(t_support))))
-		exit(1);
 	if (!(sup->farm = ft_vnew(100, sizeof(t_lem*))))
 	{
 		ft_memdel((void**)&sup);
@@ -59,7 +54,10 @@ t_support	*support_struct_init(void)
 	}
 	sup->start_mark = 0;
 	sup->end_mark = 0;
-	return (sup);
+	sup->xy[0][0] = 0;
+	sup->xy[0][1] = 0;
+	sup->xy[1][0] = 0;
+	sup->xy[1][1] = 0;
 }
 
 void		tube_connect(t_lem *start, t_lem *end, t_support *sup)

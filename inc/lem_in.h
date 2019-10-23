@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:49:13 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/23 01:26:14 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/23 15:31:48 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ typedef struct	s_path
 typedef struct	s_lem
 {
 	char		*name;
-	int			x_coor;
-	int			y_coor;
+	int			x;
+	int			y;
 	int			mark;
 	int			ants;
 	int			status;
@@ -64,6 +64,7 @@ typedef struct	s_support
 	int			start_mark;
 	int			end_mark;
 	int			cons;
+	int			xy[2][2];
 	char		**valid_arr;
 	t_opt		opt;
 	t_vec		*farm;
@@ -72,7 +73,7 @@ typedef struct	s_support
 }				t_support;
 
 void			ft_alarm (char **valid_arr, t_support *sup);
-t_support		*support_struct_init(void);
+void			support_struct_init(t_support *sup);
 void			del_farm(t_support *sup);
 void			del_valid_arr(char **valid_arr);
 
@@ -82,6 +83,7 @@ t_lem			*make_important_room(int status, t_support *sup);
 void			tube_connect(t_lem *start, t_lem *end, t_support *sup);
 int				make_tube(char *str, t_support *sup);
 int				check_id(char *str, t_support *sup);
+void			compare_coords(t_support *sup, int x, int y);
 
 t_lem			*tree_make(t_support *sup);
 void			path_find(t_support *sup);
@@ -91,5 +93,5 @@ void			lem_in(t_support *sup, t_vec *paths);
 void			print_path(t_vec *path);
 void			print_moves(t_vec *p, t_support *sup);
 
-void			visu_init(t_support *sup, t_visu *v);
+int				visu_init(t_support *sup, t_visu *v);
 #endif

@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:47 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/23 01:27:31 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/23 15:07:05 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ int		rooms_valid(char **tmp, char *str, t_support *sup)
 	int i;
 
 	i = 0;
-	while (tmp[0][i])
-		if (!(ft_isdigit(tmp[0][i++])) && tmp[0][0]
+	while (tmp[0][i]) if (!(ft_isdigit(tmp[0][i++])) && tmp[0][0]
 				!= '#' && !ft_strstr(tmp[0], "-"))
 			ft_alarm(tmp, sup);
 	if (tmp[0][0] != '#' && !(ft_strstr(tmp[0], "-")))
@@ -81,12 +80,13 @@ t_lem	*make_room(char *str, t_support *sup)
 	if (!(room->tubes = ft_vnew(5, sizeof(t_lem*))))
 		ft_alarm(tmp, sup);
 	while (sup->farm->size > ++i && (vat = ((t_lem*)ft_vat(sup->farm, i))))
-		if (!(ft_strcmp(vat->name, tmp[0])) || (vat->x_coor == ft_atoi(tmp[1])
-			&& (vat->y_coor == ft_atoi(tmp[2]))))
+		if (!(ft_strcmp(vat->name, tmp[0])) || (vat->x == ft_atoi(tmp[1])
+			&& (vat->y == ft_atoi(tmp[2]))))
 			ft_alarm(tmp, sup);
 	room->name = ft_strdup(tmp[0]);
-	room->x_coor = (int)ft_fabs(ft_atoi(tmp[1]));
-	room->y_coor = (int)ft_fabs(ft_atoi(tmp[2]));
+	room->x = (int)ft_fabs(ft_atoi(tmp[1]));
+	room->y = (int)ft_fabs(ft_atoi(tmp[2]));
+	compare_coords(sup, room->x, room->y);
 	room->status = 0;
 	room->mark = 0;
 	del_valid_arr(tmp);

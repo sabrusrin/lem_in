@@ -6,7 +6,7 @@
 #    By: lkarlon- <lkarlon-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/04 18:07:03 by chermist          #+#    #+#              #
-#    Updated: 2019/10/23 01:09:04 by chermist         ###   ########.fr        #
+#    Updated: 2019/10/23 15:21:50 by chermist         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,8 @@ SRC = 	main.c \
 		parse.c \
 	  	algo.c \
 		lem_in.c \
-		moves.c
+		moves.c \
+		visu_init.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -46,7 +47,7 @@ all: DEPS $(NAME)
 
 $(NAME):  $(OBJ) $(LIBNAME)
 	@echo "\033[35mCompiling ./lem-in\033[0m"
-	@$(CC) $(CFLAGS) $(INCDIR) $(LIBDIR) $(LIB) $(OBJ) -o $@
+	@$(CC) $(CFLAGS) $(LIBDIR) $(LIB) $(OBJ) -o $@
 	@echo "\033[1;32m./lem-in was built\033[0m"
 
 DEPS:

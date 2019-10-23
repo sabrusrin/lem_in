@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:29 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/23 01:09:38 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/23 14:30:19 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,8 +137,7 @@ void	path_find(t_support *sup)
 		if (room->status == 1)
 		{
 			paths = ft_vnew(sup->farm->size, sizeof(t_vec*));
-			q = ft_qnew(1000000, sizeof(t_vec*));
-//			ft_printf("\n#%d#\n", sup->farm->size);
+			q = ft_qnew(500000, sizeof(t_vec*));
 			bfs(room, paths, q);
 			break;
 		}

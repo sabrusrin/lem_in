@@ -6,11 +6,23 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:39 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/23 01:27:28 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/23 15:49:21 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+
+void	compare_coords(t_support *sup, int x, int y)
+{
+	if (!sup->xy[0][0] || sup->xy[0][0] > x)
+		sup->xy[0][0] = x;
+	if (!sup->xy[0][1] || sup->xy[0][1] > y)
+		sup->xy[0][1] = y;
+	if (!sup->xy[1][0] || sup->xy[1][0] < x)
+		sup->xy[1][0] = x;
+	if (!sup->xy[1][1] || sup->xy[1][1] < y)
+		sup->xy[1][1] = y;
+}
 
 void	rooms_valid_block(t_support *sup)
 {
@@ -90,7 +102,7 @@ int		options(char *av, t_opt *opt)
 int		main(int ac, char **av)
 {
 	t_lem		*start;
-	t_support	*sup;
+	t_support	sup;
 	t_lem		*tmp;
 	t_visu		visu;
 	t_opt		opt;
@@ -98,15 +110,17 @@ int		main(int ac, char **av)
 	if (ac > 1)
 		if (options(av[1], &opt))
 			return (0);
-	sup = support_struct_init();
-	sup->opt = opt;
-	sup->cons = 0;
-	sup->lines = ft_vnew(200, sizeof(t_lines*));
-	start = tree_make(sup);
-//	if (opt.visu)
-//		visu_init(sup, &visu);
-	path_find(sup);
+	support_struct_init(&sup);
+	sup.opt = opt;
+	sup.cons = 0;
+	sup.lines = ft_vnew(200, sizeof(t_lines*));
+	start = tree_make(&sup);
+	ft_printf("minx: %d miny: %d\nmaxx: %d maxy: %d\n", sup.xy[0][0],
+		   sup.xy[0][1], sup.xy[1][0], sup.xy[1][1]);
+	if (opt.visu)
+		visu_init(&sup, &visu);
+//	path_find(&sup);
 	
-	del_farm(sup);
+	del_farm(&sup);
 	return (0);
 }

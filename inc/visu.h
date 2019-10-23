@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:23:04 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/23 01:09:40 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/23 15:24:00 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct		s_visu
 	Uint32			clr[4];
 	SDL_Event		event;
 	SDL_Renderer	*rend;
-	SDL_Window		*window;
+	SDL_Window		*win;
 	SDL_Texture		*layer[4];
 }					t_visu;
 
