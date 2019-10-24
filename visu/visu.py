@@ -63,6 +63,7 @@ def min_max_coords(nodes):
 		if node.y > max_y: max_y = node.y
 		if node.x < min_x: min_x = node.x
 		if node.y < min_y: min_y = node.y
+	print("min y = ", min_y)
 	return {'min_x': min_x, 'max_x': max_x, 'min_y': min_y, 'max_y': max_y}
 
 def parse_input():
@@ -121,6 +122,9 @@ def parse_input():
 def calc_size(coords, nodes, offset):
 	height = coords['max_y'] - coords['min_y'] + 0.01
 	width = coords['max_x'] - coords['min_x'] + 0.01
+	print('minx: ', coords['min_x'], ' ', 'miny', coords['min_y'], '\n')
+	print('maxx:', coords['max_x'], ' ', 'maxy', coords['max_y'], '\n')
+	print('width: ', width, 'height: ', height, '\n')
 	if width > height:
 		mp = (1200 - offset * 2) / width
 	else:
@@ -130,6 +134,7 @@ def calc_size(coords, nodes, offset):
 		node.y = (node.y - coords['min_y']) * mp + offset
 	height = height * mp + offset * 2
 	width = width * mp + offset * 2
+	print('width: ', width, 'height: ', height, '\n')
 	return width, height
 
 def get_start_coords(nodes):

@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 01:07:24 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/23 14:26:14 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/23 18:40:46 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,16 @@ int main(void) {
     while (1) {
         if (SDL_PollEvent(&event))
 		{
-			if ((event.type == SDL_QUIT) || (event.key.keysym.sym == SDLK_ESCAPE))
+			if (event.type == SDL_QUIT)
+			{
+				printf("KK\n");
 				break;
+			}
+			if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)
+				{
+					printf("OO\n");
+					break;
+				}
 		}
     }
     SDL_DestroyRenderer(renderer);

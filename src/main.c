@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:39 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/23 15:49:21 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/24 03:06:25 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,18 @@
 
 void	compare_coords(t_support *sup, int x, int y)
 {
-	if (!sup->xy[0][0] || sup->xy[0][0] > x)
+	if (!sup->farm->size)
+	{
 		sup->xy[0][0] = x;
-	if (!sup->xy[0][1] || sup->xy[0][1] > y)
 		sup->xy[0][1] = y;
-	if (!sup->xy[1][0] || sup->xy[1][0] < x)
+	}
+	if (x < sup->xy[0][0])
+		sup->xy[0][0] = x;
+	if (y < sup->xy[0][1])
+		sup->xy[0][1] = y;
+	if (!sup->xy[1][0] || x > sup->xy[1][0])
 		sup->xy[1][0] = x;
-	if (!sup->xy[1][1] || sup->xy[1][1] < y)
+	if (!sup->xy[1][1] || y > sup->xy[1][1])
 		sup->xy[1][1] = y;
 }
 
@@ -90,12 +95,15 @@ int		options(char *av, t_opt *opt)
 		ft_putstr("\t--nomap : to print instructions only\n");
 		return (1);
 	}
-	else if (!ft_strcmp("--visu", av))
-		opt->visu = 1;
-	else if (!ft_strcmp("--paths", av))
-		opt->paths = 1;
-	else if (!ft_strcmp("--nomap", av))
-		opt->nomap = 1;
+	else
+	{
+		if (ft_strchr(av, 'v'))
+			opt->visu = 1;
+		if (!ft_strchr(av, 'p'))
+			opt->paths = 1;
+		if (ft_strchr(av, 'n'))
+			opt->nomap = 1;
+	}
 	return (0);
 }
 
@@ -119,7 +127,7 @@ int		main(int ac, char **av)
 		   sup.xy[0][1], sup.xy[1][0], sup.xy[1][1]);
 	if (opt.visu)
 		visu_init(&sup, &visu);
-//	path_find(&sup);
+	path_find(&sup);
 	
 	del_farm(&sup);
 	return (0);
