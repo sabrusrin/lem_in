@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:39 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/24 03:06:25 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/24 20:20:26 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,11 +123,11 @@ int		main(int ac, char **av)
 	sup.cons = 0;
 	sup.lines = ft_vnew(200, sizeof(t_lines*));
 	start = tree_make(&sup);
-	ft_printf("minx: %d miny: %d\nmaxx: %d maxy: %d\n", sup.xy[0][0],
-		   sup.xy[0][1], sup.xy[1][0], sup.xy[1][1]);
 	if (opt.visu)
 		visu_init(&sup, &visu);
 	path_find(&sup);
+	if (opt.visu)
+		visu_move(&sup, &visu);
 	
 	del_farm(&sup);
 	return (0);

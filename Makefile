@@ -6,7 +6,7 @@
 #    By: lkarlon- <lkarlon-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/04 18:07:03 by chermist          #+#    #+#              #
-#    Updated: 2019/10/23 15:21:50 by chermist         ###   ########.fr        #
+#    Updated: 2019/10/25 01:04:11 by chermist         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,8 @@ SRC = 	main.c \
 	  	algo.c \
 		lem_in.c \
 		moves.c \
-		visu_init.c
+		visu_init.c \
+		visu_move.c
 
 OBJ = $(SRC:.c=.o)
 

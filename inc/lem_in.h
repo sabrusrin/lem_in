@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:49:13 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/24 03:06:29 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/24 20:33:35 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,5 @@ void			print_path(t_vec *path);
 void			print_moves(t_vec *p, t_support *sup);
 
 int				visu_init(t_support *sup, t_visu *v);
+int				visu_move(t_support *sup, t_visu *v);
 #endif
