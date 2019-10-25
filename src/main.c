@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:39 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/24 20:20:26 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/25 01:35:46 by rustamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,10 @@ int		main(int ac, char **av)
 	if (ac > 1)
 		if (options(av[1], &opt))
 			return (0);
+	if (ac == 3)
+		visu.d = ft_atoi(av[2]);
+	else
+		visu.d = 1200;
 	support_struct_init(&sup);
 	sup.opt = opt;
 	sup.cons = 0;

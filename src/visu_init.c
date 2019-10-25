@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:22:28 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/25 00:16:41 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/25 01:32:18 by rustamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,9 @@ void	set_defaults(t_support *sup, t_visu *v, double wh[])
 	wh[0] = sup->xy[1][0] - sup->xy[0][0];
 	wh[1] = sup->xy[1][1] - sup->xy[0][1];
 	if (wh[0] > wh[1])
-		mp = (double)(1200 - 100 * 2) / ((wh[0] != 0) ? wh[0] : 1);
+		mp = (double)(v->d - 100 * 2) / ((wh[0] != 0) ? wh[0] : 1);
 	else
-		mp = (double)(1200 - 100 * 2) / ((wh[1] != 0) ? wh[1] : 1);
+		mp = (double)(v->d - 100 * 2) / ((wh[1] != 0) ? wh[1] : 1);
 	i = -1;
 	while (++i < sup->farm->size)
 	{
@@ -97,7 +97,7 @@ void	set_defaults(t_support *sup, t_visu *v, double wh[])
 	}
 	wh[0] = wh[0] * mp + 100 * 2;
 	wh[1] = wh[1] * mp + 100 * 2;
-	v->radius = (1120 / ft_sqrt((sup->farm->size + 10) * 4) / 3) * 2;
+	v->radius = (v->d / ft_sqrt((sup->farm->size + 10) * 4) / 3) * 2;
 }
 
 int		visu_init(t_support *sup, t_visu *v)

@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:23:04 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/24 23:07:29 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/25 01:34:51 by rustamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,14 @@ typedef struct		s_ants
 	SDL_Texture		*tex_ant;
 	SDL_Rect		dest;
 }					t_ants;
+
 typedef struct		s_visu
 {
 	int				scale[2];
 	int				off[2];
 	int				*lines[2];
 	int				radius;
+	int				d;
 	Uint32			clr[4];
 	SDL_Event		event;
 	SDL_Renderer	*rend;
