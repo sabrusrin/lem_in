@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:29 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/23 14:30:19 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/25 20:39:37 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,23 +89,18 @@ void	bfs(t_lem *start, t_vec *paths, t_queue *q)
 	while (!ft_qempty(q))
 	{
 		path = *(t_vec**)ft_qpop(q);
-//		printf("POP: ");
-//		print_path(path);
 		start = *(t_lem**)ft_vback(path);
-//		printf("\n[%s]->", start->name);
 		if (start->status == 2)
 		{
 			ft_vpush_back(paths, &path, sizeof(t_vec*));
 			if (paths->size > 500)
 				break;
-//			print_path(path);
 			continue;
 		}
 		i = -1;
 		while (++i < start->tubes->size)
 		{
 			room = *(t_lem**)ft_vat(start->tubes, i);
-//			if (check_path(path, room))
 			if ((room->mark == 0 || room->mark >= start->mark
 				|| start->tubes->size == 1 || room->status == 2)
 				&& check_path(path, room))
@@ -115,8 +110,6 @@ void	bfs(t_lem *start, t_vec *paths, t_queue *q)
 				newpath = ft_vdup(path);
 				ft_vpush_back(newpath, &room, sizeof(t_lem*));
 				ft_qpush(q, &newpath);
-//				printf("PUSH: ");
-//				print_path(newpath);
 			}
 		}
 	}

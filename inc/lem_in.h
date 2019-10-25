@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:49:13 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/24 20:33:35 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/25 22:57:23 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,13 @@ typedef struct	s_lines
 	t_lem		*b;
 }				t_lines;
 
+typedef struct	s_move
+{
+	int			a[2];
+	int			b[2];
+	int			delta[2];
+}				t_move;
+
 typedef struct	s_opt
 {
 	int			visu;
@@ -70,6 +77,7 @@ typedef struct	s_support
 	t_vec		*farm;
 	t_vec		*lines;
 	t_vec		*in;
+	t_vec		*moves;
 }				t_support;
 
 void			ft_alarm (char **valid_arr, t_support *sup);
@@ -95,4 +103,7 @@ void			print_moves(t_vec *p, t_support *sup);
 
 int				visu_init(t_support *sup, t_visu *v);
 int				visu_move(t_support *sup, t_visu *v);
+void			print_rooms(t_support *sup, t_visu *v);
+void			print_lines(t_support *sup, t_visu *v);
+
 #endif

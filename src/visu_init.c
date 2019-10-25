@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:22:28 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/25 01:32:18 by rustamsa         ###   ########.fr       */
+/*   Updated: 2019/10/25 22:57:21 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,13 +112,11 @@ int		visu_init(t_support *sup, t_visu *v)
 	SDL_CreateWindowAndRenderer(wh[0], wh[1], SDL_WINDOW_ALLOW_HIGHDPI,
 								&v->win, &v->rend);
 	SDL_Renderer* rend = SDL_CreateRenderer(v->win, -1, SDL_RENDERER_ACCELERATED);//
-	SDL_SetRenderDrawColor(v->rend, 255, 0, 0, 255);//
-	SDL_RenderDrawLine(rend, 100, 100, 500, 500);
 	SDL_SetRenderDrawColor(v->rend, 10, 30, 41, 0);
 	SDL_RenderClear(v->rend);
 //	SDL_SetRenderDrawColor(v->rend, 255, 0, 0, 255);
 	SDL_GL_GetDrawableSize(v->win, &hw[0], &hw[1]);
-	ft_printf("W: %d   H: %d\n", hw[0], hw[1]);
+//	ft_printf("W: %d   H: %d\n", hw[0], hw[1]);
 	print_lines(sup, v);
 	print_rooms(sup, v);
 	SDL_RenderPresent(v->rend);

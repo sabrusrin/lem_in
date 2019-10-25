@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/20 18:24:57 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/24 03:06:28 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/25 22:57:19 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,25 @@ int		check_weight(t_vec *paths, t_vec *path, int j, int ants)
 	return (1);
 }
 
-void	moves(t_lem *room, int i[])
+void	save_move(t_support *sup, t_vec* path, t_lem *room, int i[])
+{
+	t_vec		*moves;
+	t_move		*move;	
+	t_lem		*prev;
+
+	moves = *(t_vec**)ft_vback(sup->moves);
+	move = malloc(sizeof(t_move));
+	prev = *(t_lem**)ft_vat(path, i[2] - 1);
+	move->a[0] = prev->x;
+	move->a[1] = prev->y;
+	move->b[0] = room->x;
+	move->b[1] = room->y;
+	move->delta[0] = (move->a[0] - move->b[0]) / 10;
+	move->delta[1] = (move->a[1] - move->b[1]) / 10;
+	ft_vpush_back(moves, &move, sizeof(t_move*));
+}
+
+void	moves(t_support *sup, t_vec *path, t_lem *room, int i[])
 {
 	static int	ants = 0;
 
@@ -49,6 +67,8 @@ void	moves(t_lem *room, int i[])
 	{
 		if (i[3])
 		{
+			if (sup->opt.visu)
+				save_move(sup, path, room, i);
 			ft_printf("L%d-%s ", i[3], room->name);
 			ants = room->ants;
 			room->ants = i[3];
@@ -70,11 +90,14 @@ void	print_moves(t_vec *p, t_support *sup)
 	int		count;
 	t_lem	*room;
 	t_vec	*path;
+	t_vec	*move;
 
 	count = 0;
 	i[0] = 0;
 	while (i[0] < sup->ants && (i[1] = -1))
 	{
+		if (sup->opt.visu && (move = ft_vnew(10, sizeof(t_move*))))
+			ft_vpush_back(sup->moves, &move, sizeof(t_vec*));
 		while (++i[1] < p->size && (i[2] = -1) &&
 			(path = *(t_vec**)ft_vat(p, i[1])))
 		{
@@ -90,7 +113,7 @@ void	print_moves(t_vec *p, t_support *sup)
 					i[3] = count;
 					continue;
 				}
-				moves(room, i);
+				moves(sup, path, room, i);
 			}
 		}
 		write(1, "\n", 1);

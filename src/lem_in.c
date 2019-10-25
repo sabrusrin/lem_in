@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:34 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/23 01:09:37 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/25 22:57:24 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,7 @@ void	lem_in(t_support *sup, t_vec *paths)
 	flows = ft_vnew(paths->size, sizeof(t_path*));
 	flow = 0;
 	i[0] = -1;
-	i[1] = 0;
-	if ((find_packs(flows, paths, sup)))
+	if (!(i[1] = 0) && (find_packs(flows, paths, sup)))
 		while (++i[0] < flows->size)
 		{
 			packs = *(t_path**)ft_vat(flows, i[0]);
@@ -110,19 +109,9 @@ void	lem_in(t_support *sup, t_vec *paths)
 				flow = packs->pflow;
 			}
 		}
+	if (flow)
+		sup->moves = ft_vnew(flow, sizeof(t_vec*));
 	if (packs && (packs = *(t_path**)ft_vat(flows, i[1])))
 		print_moves(packs->paths, sup);
 	clean_all(flows);
 }
-/*
- 	if (p)
-	{
-		i = -1;
-		while (++i < p->size)
-		{
-			path = *(t_vec**)ft_vat(p, i);
-			print_path(path);
-		}
-	}
- 
- */
