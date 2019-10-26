@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:23:04 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/26 03:23:56 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/26 09:10:44 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct		s_visu
 {
 	int				radius;
 	int				d;
+	int				wh[2];
 	Uint32			clr[4];
 	SDL_Event		event;
 	SDL_Renderer	*rend;

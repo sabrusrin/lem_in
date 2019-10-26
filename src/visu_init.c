@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:22:28 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/26 03:02:55 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/26 15:11:38 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void		print_lines(t_support *sup, t_visu *v)
 	t_lines		*ab;
 
 	i = -1;
-	while (++i < sup->lines->size)
+	while (++i < (int)sup->lines->size)
 	{
 		ab = *(t_lines**)ft_vat(sup->lines, i);
 		thickLineRGBA(v->rend, ab->a->x, ab->a->y,
@@ -52,14 +52,14 @@ SDL_Texture	*create_text(t_lem *room, t_visu *v, char *text, SDL_Rect *rect)
 
 void		print_rooms(t_support *sup, t_visu *v)
 {
-	int			i;
+	size_t		i;
 	SDL_Rect	rect;
 	t_lem		*room;
 	SDL_Texture	*texture;
 
-	i = -1;
+	i = 0;
 	v->font = TTF_OpenFont("futura medium bt.ttf", v->radius / 2);
-	while (++i < sup->farm->size && (room = *(t_lem**)ft_vat(sup->farm, i)))
+	while (i < sup->farm->size && (room = *(t_lem**)ft_vat(sup->farm, i++)))
 	{
 		if (room->status == 1)
 			filledCircleRGBA(v->rend, room->x, room->y,
@@ -92,7 +92,7 @@ void		set_defaults(t_support *sup, t_visu *v, double wh[])
 	else
 		mp = (double)(v->d - 100 * 2) / ((wh[1] != 0) ? wh[1] : 1);
 	i = -1;
-	while (++i < sup->farm->size)
+	while (++i < (int)sup->farm->size)
 	{
 		room = *(t_lem**)ft_vat(sup->farm, i);
 		room->x = ((room->x - sup->xy[0][0]) * mp + 100) * 2;
@@ -106,8 +106,6 @@ void		set_defaults(t_support *sup, t_visu *v, double wh[])
 int			visu_init(t_support *sup, t_visu *v)
 {
 	double	wh[2];
-	double	mp;
-	int		hw[2];
 
 	set_defaults(sup, v, wh);
 	SDL_Init(SDL_INIT_VIDEO);
@@ -116,8 +114,8 @@ int			visu_init(t_support *sup, t_visu *v)
 								&v->win, &v->rend);
 	SDL_SetRenderDrawColor(v->rend, 10, 30, 41, 0);
 	SDL_RenderClear(v->rend);
-	print_lines(sup, v);
-	print_rooms(sup, v);
+	SDL_GL_GetDrawableSize(v->win, &v->wh[0], &v->wh[1]);
+	put_default(sup, v, sup->ants, 0);
 	SDL_RenderPresent(v->rend);
 	return (EXIT_SUCCESS);
 }

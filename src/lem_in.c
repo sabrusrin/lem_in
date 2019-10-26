@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:34 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/26 04:33:41 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/26 15:26:48 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	print_in(t_support *sup)
 	char	*str;
 
 	i = -1;
-	while (++i < sup->in->size)
+	while (++i < (int)sup->in->size)
 	{
 		str = *(char**)ft_vat(sup->in, i);
 		ft_putstr(str);
@@ -36,7 +36,7 @@ void	clean_all(t_vec *flows)
 	if (flows)
 	{
 		i = -1;
-		while (++i < flows->size)
+		while (++i < (int)flows->size)
 		{
 			pack = *(t_path**)ft_vat(flows, i);
 			ft_vdel(&pack->paths);
@@ -54,13 +54,13 @@ int		check_conflict(t_path *pack, t_vec *chk)
 	t_lem	*rc;
 
 	i[0] = -1;
-	while (++i[0] < pack->paths->size && (i[1] = -1))
+	while (++i[0] < (int)pack->paths->size && (i[1] = -1))
 	{
 		path = *(t_vec**)ft_vat(pack->paths, i[0]);
-		while (++i[1] < path->size && (i[2] = -1))
+		while (++i[1] < (int)path->size && (i[2] = -1))
 		{
 			r = *(t_lem**)ft_vat(path, i[1]);
-			while (++i[2] < chk->size)
+			while (++i[2] < (int)chk->size)
 			{
 				rc = *(t_lem**)ft_vat(chk, i[2]);
 				if ((r == rc &&
@@ -78,11 +78,11 @@ int		find_packs(t_vec *flows, t_vec *paths, t_support *sup)
 {
 	int		i[2];
 	t_vec	*path;
-	t_vec	*chk;
+	t_vec	*c;
 	t_path	*pack;
 
 	i[0] = -1;
-	while (++i[0] < paths->size && (path = *(t_vec**)ft_vat(paths, i[0])))
+	while (++i[0] < (int)paths->size && (path = *(t_vec**)ft_vat(paths, i[0])))
 	{
 		if (!(pack = malloc(sizeof(t_path))) ||
 			!(pack->paths = ft_vnew(3, sizeof(t_vec*))))
@@ -91,10 +91,10 @@ int		find_packs(t_vec *flows, t_vec *paths, t_support *sup)
 		pack->pflow = pack->flow / 1 + (sup->ants - 1);
 		ft_vpush_back(pack->paths, &path, sizeof(t_vec*));
 		i[1] = -1;
-		while (++i[1] < paths->size && (chk = *(t_vec**)ft_vat(paths, i[1])))
-			if (check_conflict(pack, chk) && (pack->flow += chk->size - 1))
+		while (++i[1] < (int)paths->size && (c = *(t_vec**)ft_vat(paths, i[1])))
+			if (check_conflict(pack, c) && (pack->flow += c->size - 1))
 			{
-				ft_vpush_back(pack->paths, &chk, sizeof(t_vec*));
+				ft_vpush_back(pack->paths, &c, sizeof(t_vec*));
 				pack->pflow = pack->flow / pack->paths->size +
 					(sup->ants - pack->paths->size) / pack->paths->size;
 			}
@@ -110,22 +110,22 @@ void	lem_in(t_support *sup, t_vec *paths)
 	int		i[2];
 	int		flow;
 
-	flows = ft_vnew(paths->size, sizeof(t_path*));
-	flow = 0;
-	i[0] = -1;
-	if (!(i[1] = 0) && (find_packs(flows, paths, sup)))
-		while (++i[0] < flows->size)
-		{
-			packs = *(t_path**)ft_vat(flows, i[0]);
-			if ((!flow || packs->pflow < flow) && packs->pflow)
-			{
-				i[1] = i[0];
-				flow = packs->pflow;
-			}
-		}
-	if (sup->opt.visu)
-		sup->moves = ft_vnew(30, sizeof(t_vec*));
-	if (packs && (packs = *(t_path**)ft_vat(flows, i[1])))
-		print_moves(packs->paths, sup);
-	clean_all(flows);
+	if ((i[0] = -1) && (*(t_vec**)ft_vat(paths, 0))->size == 2)
+		move_to_end(sup, *(t_vec**)ft_vat(paths, 0));
+	else
+	{
+		flows = ft_vnew(paths->size, sizeof(t_path*));
+		flow = 0;
+		packs = NULL;
+		if (!(i[1] = 0) && (find_packs(flows, paths, sup)))
+			while (++i[0] < (int)flows->size &&
+				(packs = *(t_path**)ft_vat(flows, i[0])))
+				if ((!flow || packs->pflow < flow) && (flow = packs->pflow))
+					i[1] = i[0];
+		if (sup->opt.visu)
+			sup->moves = ft_vnew(30, sizeof(t_vec*));
+		if (packs && (packs = *(t_path**)ft_vat(flows, i[1])))
+			print_moves(packs->paths, sup);
+		clean_all(flows);
+	}
 }

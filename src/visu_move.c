@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 20:20:32 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/26 06:28:21 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/26 15:04:06 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,33 @@ int		handle_event(t_visu *v)
 	return (0);
 }
 
-void	put_default(t_support *sup, t_visu *v)
+void	put_default(t_support *sup, t_visu *v, int s, int e)
 {
-	SDL_SetRenderDrawColor(v->rend, 10, 30, 41, 0);
-	SDL_RenderClear(v->rend);
+	SDL_Rect	rect;
+	SDL_Texture	*texture;
+	int			xy[2];
+	char		*str;
+
+	v->font = TTF_OpenFont("minecraft.ttf", 60);
+	texture = NULL;
+	rect.w = 0;
+	print_se(v, texture, rect, xy);
+	xy[0] = 180;
+	str = ft_itoa(s);
+	texture = visu_text(v, str, &rect, xy);
+	ft_strdel(&str);
+	SDL_RenderCopy(v->rend, texture, NULL, &rect);
+	xy[0] = v->wh[0] / 2 + 140;
+	str = ft_itoa(e);
+	texture = visu_text(v, str, &rect, xy);
+	ft_strdel(&str);
+	SDL_RenderCopy(v->rend, texture, NULL, &rect);
+	TTF_CloseFont(v->font);
 	print_lines(sup, v);
 	print_rooms(sup, v);
 }
 
-void	do_move(t_move *move, t_visu *v, int i[])
+void	do_move(t_move *move, t_visu *v)
 {
 	move->a[0] -= move->delta[0];
 	move->a[1] -= move->delta[1];
@@ -54,20 +72,21 @@ int		move_ants(t_support *sup, t_visu *v)
 	t_vec	*moves;
 
 	i[0] = -1;
-	while (++i[0] < sup->moves->size)
+	while (++i[0] < (int)sup->moves->size)
 	{
 		moves = *(t_vec**)ft_vat(sup->moves, i[0]);
 		usleep(400000);
 		i[1] = -1;
-		while (++i[1] < 25 && (i[2] = -1))
+		while (++i[1] < 30 && (i[2] = -1))
 		{
 			if (SDL_PollEvent(&v->event) && handle_event(v))
 				return (0);
-			put_default(sup, v);
-			while (++i[2] < moves->size)
+			move = *(t_move**)ft_vback(moves);
+			put_default(sup, v, move->se[0], move->se[1]);
+			while (++i[2] < (int)moves->size)
 			{
 				move = *(t_move**)ft_vat(moves, i[2]);
-				do_move(move, v, i);
+				do_move(move, v);
 			}
 			SDL_RenderPresent(v->rend);
 		}
@@ -88,7 +107,7 @@ int		visu_move(t_support *sup, t_visu *v)
 				i = move_ants(sup, v);
 				break ;
 			}
-	put_default(sup, v);
+	put_default(sup, v, 0, sup->ants);
 	SDL_RenderPresent(v->rend);
 	while (i)
 		if (SDL_PollEvent(&v->event))
@@ -99,6 +118,6 @@ int		visu_move(t_support *sup, t_visu *v)
 	SDL_DestroyWindow(v->win);
 	TTF_Quit();
 	SDL_Quit();
-	visu_free(sup, v);
+	visu_free(sup);
 	return (EXIT_SUCCESS);
 }

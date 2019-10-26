@@ -6,7 +6,7 @@
 /*   By: lkarlon- <lkarlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/08 19:42:03 by lkarlon-          #+#    #+#             */
-/*   Updated: 2019/10/26 03:37:31 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/26 13:01:39 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	del_farm(t_support *sup)
 
 	if (sup && (i = -1))
 	{
-		while (++i < sup->farm->size)
+		while (++i < (int)sup->farm->size)
 			if ((room = *(t_lem**)ft_vat(sup->farm, i)))
 			{
 				ft_vdel(&room->tubes);
@@ -30,7 +30,7 @@ void	del_farm(t_support *sup)
 			}
 		if (sup->opt.nomap && (i = -1))
 		{
-			while (++i < sup->in->size &&
+			while (++i < (int)sup->in->size &&
 				(str = *(char**)ft_vat(sup->in, i)))
 				ft_strdel(&str);
 			ft_vdel(&sup->in);
@@ -62,7 +62,7 @@ void	support_struct_init(t_support *sup)
 
 void	tube_connect(t_lem *start, t_lem *end, t_support *sup)
 {
-	int		i;
+	size_t	i;
 	int		con;
 	t_lem	*room;
 	t_lines	*line;
@@ -75,9 +75,9 @@ void	tube_connect(t_lem *start, t_lem *end, t_support *sup)
 		ft_vpush_back(sup->lines, &line, sizeof(t_lines*));
 		sup->cons += 1;
 	}
-	i = -1;
+	i = 0;
 	con = 1;
-	while (++i < end->tubes->size && (room = *(t_lem**)ft_vat(end->tubes, i)))
+	while (i < end->tubes->size && (room = *(t_lem**)ft_vat(end->tubes, i++)))
 	{
 		if (ft_strstr(start->name, room->name))
 		{

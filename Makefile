@@ -6,7 +6,7 @@
 #    By: chermist <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/04 18:07:03 by chermist          #+#    #+#              #
-#    Updated: 2019/10/26 04:01:16 by chermist         ###   ########.fr        #
+#    Updated: 2019/10/26 12:55:27 by chermist         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ LIBNAME = libft/libft.a
 
 LIB = -lft
 
-CFLAGS = $(INCDIR)
+CFLAGS = -Wall -Werror -Wextra $(INCDIR)
 
 SRCDIR = ./src
 
@@ -36,7 +36,8 @@ SRC = 	main.c \
 		moves.c \
 		visu_init.c \
 		visu_move.c \
-		visu_free.c
+		visu_free.c \
+		sup2.c
 
 OBJ = $(SRC:.c=.o)
 

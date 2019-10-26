@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:39 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/26 03:37:30 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/26 12:58:17 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,6 @@ int		options(t_support *sup, char *av, t_opt *opt)
 			opt->visu = 1;
 			sup->lines = ft_vnew(200, sizeof(t_lines*));
 		}
-		if (!ft_strchr(av, 'p'))
-			opt->paths = 1;
 		if (ft_strchr(av, 'n'))
 			opt->nomap = 1;
 	}
@@ -113,10 +111,11 @@ int		main(int ac, char **av)
 {
 	t_lem		*start;
 	t_support	sup;
-	t_lem		*tmp;
 	t_visu		visu;
 	t_opt		opt;
 
+	opt.visu = 0;
+	opt.nomap = 0;
 	if (ac > 1)
 		if (options(&sup, av[1], &opt))
 			return (0);

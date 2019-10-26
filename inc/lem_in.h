@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:49:13 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/26 06:22:42 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/26 13:28:48 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct	s_move
 	float		a[2];
 	int			b[2];
 	float		delta[2];
+	int			se[2];
 }				t_move;
 
 typedef struct	s_opt
@@ -92,6 +93,7 @@ void			tube_connect(t_lem *start, t_lem *end, t_support *sup);
 int				make_tube(char *str, t_support *sup);
 int				check_id(char *str, t_support *sup);
 void			compare_coords(t_support *sup, int x, int y);
+int				check_weight(t_vec *paths, t_vec *path, int j, int ants);
 
 t_lem			*tree_make(t_support *sup);
 void			path_find(t_support *sup);
@@ -100,11 +102,16 @@ void			lem_in(t_support *sup, t_vec *paths);
 
 void			print_in(t_support *sup);
 void			print_moves(t_vec *p, t_support *sup);
+void			move_to_end(t_support *sup, t_vec *path);
 
+SDL_Texture		*visu_text(t_visu *v, char *text, SDL_Rect *rect, int xy[]);
 int				visu_init(t_support *sup, t_visu *v);
 int				visu_move(t_support *sup, t_visu *v);
 void			print_rooms(t_support *sup, t_visu *v);
 void			print_lines(t_support *sup, t_visu *v);
-void			visu_free(t_support *sup, t_visu *v);
+void			visu_free(t_support *sup);
+void			put_default(t_support *sup, t_visu *v, int s, int e);
+void			print_se(t_visu *v, SDL_Texture *texture, SDL_Rect rect,
+																int xy[]);
 
 #endif
