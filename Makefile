@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lkarlon- <lkarlon-@student.42.fr>          +#+  +:+       +#+         #
+#    By: chermist <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/04 18:07:03 by chermist          #+#    #+#              #
-#    Updated: 2019/10/25 01:04:11 by chermist         ###   ########.fr        #
+#    Updated: 2019/10/26 04:01:16 by chermist         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,16 +35,14 @@ SRC = 	main.c \
 		lem_in.c \
 		moves.c \
 		visu_init.c \
-		visu_move.c
+		visu_move.c \
+		visu_free.c
 
 OBJ = $(SRC:.c=.o)
 
 vpath %.c $(SRCDIR)
 
 all: DEPS $(NAME)
-
-#$(OBJ_DIR):
-#	@mkdir -p $(OBJ_DIR)
 
 $(NAME):  $(OBJ) $(LIBNAME)
 	@echo "\033[35mCompiling ./lem-in\033[0m"

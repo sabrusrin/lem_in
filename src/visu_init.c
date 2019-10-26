@@ -6,14 +6,14 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:22:28 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/25 22:57:21 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/26 03:02:55 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include <stdio.h>
 
-void	print_lines(t_support *sup, t_visu *v)
+void		print_lines(t_support *sup, t_visu *v)
 {
 	int			i;
 	t_lines		*ab;
@@ -29,11 +29,14 @@ void	print_lines(t_support *sup, t_visu *v)
 
 SDL_Texture	*create_text(t_lem *room, t_visu *v, char *text, SDL_Rect *rect)
 {
-	SDL_Color 	color = {255, 255, 255};
+	SDL_Color	color;
 	SDL_Surface *surface;
 	SDL_Texture *texture;
 	int			wh[2];
 
+	color.r = 255;
+	color.g = 255;
+	color.b = 255;
 	surface = TTF_RenderText_Solid(v->font, text, color);
 	texture = SDL_CreateTextureFromSurface(v->rend, surface);
 	wh[0] = surface->w;
@@ -47,7 +50,7 @@ SDL_Texture	*create_text(t_lem *room, t_visu *v, char *text, SDL_Rect *rect)
 	return (texture);
 }
 
-void	print_rooms(t_support *sup, t_visu *v)
+void		print_rooms(t_support *sup, t_visu *v)
 {
 	int			i;
 	SDL_Rect	rect;
@@ -76,7 +79,7 @@ void	print_rooms(t_support *sup, t_visu *v)
 	TTF_CloseFont(v->font);
 }
 
-void	set_defaults(t_support *sup, t_visu *v, double wh[])
+void		set_defaults(t_support *sup, t_visu *v, double wh[])
 {
 	int		i;
 	double	mp;
@@ -100,7 +103,7 @@ void	set_defaults(t_support *sup, t_visu *v, double wh[])
 	v->radius = (v->d / ft_sqrt((sup->farm->size + 10) * 4) / 3) * 2;
 }
 
-int		visu_init(t_support *sup, t_visu *v)
+int			visu_init(t_support *sup, t_visu *v)
 {
 	double	wh[2];
 	double	mp;
@@ -111,15 +114,10 @@ int		visu_init(t_support *sup, t_visu *v)
 	TTF_Init();
 	SDL_CreateWindowAndRenderer(wh[0], wh[1], SDL_WINDOW_ALLOW_HIGHDPI,
 								&v->win, &v->rend);
-	SDL_Renderer* rend = SDL_CreateRenderer(v->win, -1, SDL_RENDERER_ACCELERATED);//
 	SDL_SetRenderDrawColor(v->rend, 10, 30, 41, 0);
 	SDL_RenderClear(v->rend);
-//	SDL_SetRenderDrawColor(v->rend, 255, 0, 0, 255);
-	SDL_GL_GetDrawableSize(v->win, &hw[0], &hw[1]);
-//	ft_printf("W: %d   H: %d\n", hw[0], hw[1]);
 	print_lines(sup, v);
 	print_rooms(sup, v);
 	SDL_RenderPresent(v->rend);
-	SDL_RenderPresent(rend);
 	return (EXIT_SUCCESS);
 }

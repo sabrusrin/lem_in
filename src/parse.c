@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:47 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/24 03:06:25 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/26 03:18:25 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ int		rooms_valid(char **tmp, char *str, t_support *sup)
 	int i;
 
 	i = 0;
-	while (tmp[0][i]) if (!(ft_isdigit(tmp[0][i++])) && tmp[0][0]
-				!= '#' && !ft_strstr(tmp[0], "-"))
+	while (tmp[0][i])
+		if (!(ft_isdigit(tmp[0][i++])) && tmp[0][0] != '#' &&
+		!ft_strstr(tmp[0], "-"))
 			ft_alarm(tmp, sup);
 	if (tmp[0][0] != '#' && !(ft_strstr(tmp[0], "-")))
 		return (1);
@@ -33,14 +34,10 @@ int		rooms_valid(char **tmp, char *str, t_support *sup)
 	return (0);
 }
 
-int		command_valid(char *str, t_support *sup)
-{//make four lines shorter
+int		command_valid(char *str, t_support *sup, int i, int arr)
+{
 	char	**tmp;
-	int		i;
-	int		arr;
 
-	i = 0;
-	arr = 0;
 	if (str[0] == '#' && str[1] != '#')
 		return (6);
 	tmp = ft_strsplit(str, ' ');
@@ -54,11 +51,11 @@ int		command_valid(char *str, t_support *sup)
 	else if (arr == 3 && !(i = 0))
 	{
 		while (tmp[1][i])
-			if (!(ft_isdigit(tmp[1][i++])))
+			if (!(ft_isdigit(tmp[1][i++])) && !(tmp[1][0] = '-' && i == 1))
 				ft_alarm(tmp, sup);
 		i = 0;
 		while (tmp[2][i])
-			if (!(ft_isdigit(tmp[2][i++])))
+			if (!(ft_isdigit(tmp[2][i++])) && !(tmp[2][0] = '-' && i == 1))
 				ft_alarm(tmp, sup);
 		i = 2;
 	}
@@ -100,7 +97,7 @@ t_lem	*make_important_room(int status, t_support *sup)
 
 	get_next_line(0, &str);
 	ft_vpush_back(sup->in, &str, sizeof(char*));
-	if (command_valid(str, sup) == 2)
+	if (command_valid(str, sup, 0, 0) == 2)
 	{
 		if ((room = make_room(str, sup)))
 		{
@@ -114,7 +111,7 @@ t_lem	*make_important_room(int status, t_support *sup)
 				room->status = 2;
 				sup->end_mark++;
 			}
-			return (room);	
+			return (room);
 		}
 	}
 	else

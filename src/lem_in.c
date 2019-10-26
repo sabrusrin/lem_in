@@ -6,11 +6,27 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:34 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/25 22:57:24 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/26 03:05:20 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+
+void	print_in(t_support *sup)
+{
+	int		i;
+	char	*str;
+
+	i = -1;
+	while (++i < sup->in->size)
+	{
+		str = *(char**)ft_vat(sup->in, i);
+		ft_putstr(str);
+		ft_putchar('\n');
+		ft_strdel(&str);
+	}
+	ft_vdel(&sup->in);
+}
 
 void	clean_all(t_vec *flows)
 {
@@ -68,18 +84,16 @@ int		find_packs(t_vec *flows, t_vec *paths, t_support *sup)
 	i[0] = -1;
 	while (++i[0] < paths->size && (path = *(t_vec**)ft_vat(paths, i[0])))
 	{
-		if (!(pack = malloc(sizeof(t_path))))
+		if (!(pack = malloc(sizeof(t_path))) ||
+			!(pack->paths = ft_vnew(3, sizeof(t_vec*))))
 			return (0);
 		pack->flow = path->size - 1;
 		pack->pflow = pack->flow / 1 + (sup->ants - 1);
-		if (!(pack->paths = ft_vnew(3, sizeof(t_vec*))))
-			return (0);
 		ft_vpush_back(pack->paths, &path, sizeof(t_vec*));
 		i[1] = -1;
 		while (++i[1] < paths->size && (chk = *(t_vec**)ft_vat(paths, i[1])))
-			if (check_conflict(pack, chk))
+			if (check_conflict(pack, chk) && (pack->flow += chk->size - 1))
 			{
-				pack->flow += chk->size - 1;
 				ft_vpush_back(pack->paths, &chk, sizeof(t_vec*));
 				pack->pflow = pack->flow / pack->paths->size +
 					(sup->ants - pack->paths->size) / pack->paths->size;

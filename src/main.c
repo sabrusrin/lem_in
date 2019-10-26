@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:39 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/25 22:57:20 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/26 03:37:30 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	rooms_valid_block(t_support *sup)
 	t_lem	*room;
 	int		val;
 
-	while (get_next_line(0, &str) && (val = command_valid(str, sup)))
+	while (get_next_line(0, &str) && (val = command_valid(str, sup, 0, 0)))
 	{
 		ft_vpush_back(sup->in, &str, sizeof(char*));
 		if (val == 2 && (room = make_room(str, sup)))
@@ -62,7 +62,7 @@ t_lem	*tree_make(t_support *sup)
 
 	get_next_line(0, &str);
 	ft_vpush_back(sup->in, &str, sizeof(char*));
-	if (command_valid(str, sup) == 1)
+	if (command_valid(str, sup, 0, 0) == 1)
 		sup->ants = atoi(str);
 	else
 		ft_alarm(NULL, sup);
@@ -70,7 +70,7 @@ t_lem	*tree_make(t_support *sup)
 	while (get_next_line(0, &str))
 	{
 		ft_vpush_back(sup->in, &str, sizeof(char*));
-		val = command_valid(str, sup);
+		val = command_valid(str, sup, 0, 0);
 		if (val == 6)
 			;
 		else if (val == 5)
@@ -81,24 +81,26 @@ t_lem	*tree_make(t_support *sup)
 	return (NULL);
 }
 
-int		options(char *av, t_opt *opt)
+int		options(t_support *sup, char *av, t_opt *opt)
 {
 	opt->visu = 0;
 	opt->nomap = 0;
 	opt->paths = 0;
 	if (!ft_strcmp("--help", av))
 	{
-		ft_putstr("usage: ./lem-in [option] < graph\n");
+		ft_putstr("usage: ./lem-in --[option] < graph\n");
 		ft_putstr("options:\n\t--help : to read the manual\n");
-		ft_putstr("\t--visu : to start with visualizer\n");
-		ft_putstr("\t--paths : to print paths discovered\n");
-		ft_putstr("\t--nomap : to print instructions only\n");
+		ft_putstr("\tv : to start with visualizer\n");
+		ft_putstr("\tn : to print instructions only\n");
 		return (1);
 	}
 	else
 	{
 		if (ft_strchr(av, 'v'))
+		{
 			opt->visu = 1;
+			sup->lines = ft_vnew(200, sizeof(t_lines*));
+		}
 		if (!ft_strchr(av, 'p'))
 			opt->paths = 1;
 		if (ft_strchr(av, 'n'))
@@ -114,9 +116,9 @@ int		main(int ac, char **av)
 	t_lem		*tmp;
 	t_visu		visu;
 	t_opt		opt;
-	
+
 	if (ac > 1)
-		if (options(av[1], &opt))
+		if (options(&sup, av[1], &opt))
 			return (0);
 	if (ac == 3)
 		visu.d = ft_atoi(av[2]);
@@ -125,14 +127,12 @@ int		main(int ac, char **av)
 	support_struct_init(&sup);
 	sup.opt = opt;
 	sup.cons = 0;
-	sup.lines = ft_vnew(200, sizeof(t_lines*));
 	start = tree_make(&sup);
 	if (opt.visu)
 		visu_init(&sup, &visu);
 	path_find(&sup);
 	if (opt.visu)
 		visu_move(&sup, &visu);
-	
 	del_farm(&sup);
 	return (0);
 }

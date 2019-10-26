@@ -6,13 +6,13 @@
 /*   By: lkarlon- <lkarlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/08 19:42:03 by lkarlon-          #+#    #+#             */
-/*   Updated: 2019/10/24 03:06:26 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/26 03:37:31 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void		del_farm(t_support *sup)
+void	del_farm(t_support *sup)
 {
 	t_lem	*room;
 	char	*str;
@@ -60,7 +60,7 @@ void	support_struct_init(t_support *sup)
 	sup->xy[1][1] = 0;
 }
 
-void		tube_connect(t_lem *start, t_lem *end, t_support *sup)
+void	tube_connect(t_lem *start, t_lem *end, t_support *sup)
 {
 	int		i;
 	int		con;
@@ -89,7 +89,7 @@ void		tube_connect(t_lem *start, t_lem *end, t_support *sup)
 		ft_vpush_back(end->tubes, &start, sizeof(t_lem*));
 }
 
-void		del_valid_arr(char **valid_arr)
+void	del_valid_arr(char **valid_arr)
 {
 	int y;
 
@@ -102,7 +102,7 @@ void		del_valid_arr(char **valid_arr)
 	valid_arr = NULL;
 }
 
-void		ft_alarm(char **valid_arr, t_support *sup)
+void	ft_alarm(char **valid_arr, t_support *sup)
 {
 	sup->opt.nomap = 1;
 	del_farm(sup);

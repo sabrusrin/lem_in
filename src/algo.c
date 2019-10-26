@@ -6,33 +6,16 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:29 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/25 20:39:37 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/26 03:05:24 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-#include "stdio.h"
-
-void	print_in(t_support *sup)
-{
-	int		i;
-	char	*str;
-
-	i = -1;
-	while (++i < sup->in->size)	
-	{
-		str = *(char**)ft_vat(sup->in, i);
-		ft_putstr(str);
-		ft_putchar('\n');
-		ft_strdel(&str);
-	}
-	ft_vdel(&sup->in);
-}
 
 void	clean_up(t_vec *paths, t_queue *q)
 {
-	t_vec *tmp;
-	int	i;
+	t_vec	*tmp;
+	int		i;
 
 	i = -1;
 	if (q)
@@ -43,26 +26,11 @@ void	clean_up(t_vec *paths, t_queue *q)
 			if (tmp)
 				ft_vdel(&tmp);
 		}
-
 		ft_qdel(&q);
 	}
 	i = -1;
 	if (paths)
 		ft_vdel(&paths);
-}
-
-void	print_path(t_vec *path)
-{
-	int	i;
-	t_lem *tmp;
-
-	i = -1;
-	while (++i < path->size)
-	{
-		tmp = *(t_lem**)ft_vat(path, i);
-		printf("%s>>", tmp->name);
-	}
-	printf("\n");
 }
 
 int		check_path(t_vec *path, t_lem *room)
@@ -76,6 +44,17 @@ int		check_path(t_vec *path, t_lem *room)
 	return (1);
 }
 
+void	enqueue(t_lem *room, t_lem *start, t_vec *path, t_queue *q)
+{
+	t_vec *newpath;
+
+	if (room->mark == 0 || room->mark > start->mark + 1)
+		room->mark = start->mark + 1;
+	newpath = ft_vdup(path);
+	ft_vpush_back(newpath, &room, sizeof(t_lem*));
+	ft_qpush(q, &newpath);
+}
+
 void	bfs(t_lem *start, t_vec *paths, t_queue *q)
 {
 	t_vec	*path;
@@ -86,32 +65,22 @@ void	bfs(t_lem *start, t_vec *paths, t_queue *q)
 	path = ft_vnew(5, sizeof(t_lem*));
 	ft_vpush_back(path, &start, sizeof(t_lem*));
 	ft_qpush(q, &path);
-	while (!ft_qempty(q))
+	while (!ft_qempty(q) && (path = *(t_vec**)ft_qpop(q)))
 	{
-		path = *(t_vec**)ft_qpop(q);
-		start = *(t_lem**)ft_vback(path);
-		if (start->status == 2)
+		if ((start = *(t_lem**)ft_vback(path)) && start->status == 2)
 		{
 			ft_vpush_back(paths, &path, sizeof(t_vec*));
 			if (paths->size > 500)
-				break;
+				break ;
 			continue;
 		}
 		i = -1;
-		while (++i < start->tubes->size)
-		{
-			room = *(t_lem**)ft_vat(start->tubes, i);
+		while (++i < start->tubes->size &&
+			(room = *(t_lem**)ft_vat(start->tubes, i)))
 			if ((room->mark == 0 || room->mark >= start->mark
-				|| start->tubes->size == 1 || room->status == 2)
-				&& check_path(path, room))
-			{
-				if (room->mark == 0 || room->mark > start->mark + 1)
-					room->mark = start->mark + 1;
-				newpath = ft_vdup(path);
-				ft_vpush_back(newpath, &room, sizeof(t_lem*));
-				ft_qpush(q, &newpath);
-			}
-		}
+					|| start->tubes->size == 1 || room->status == 2)
+					&& check_path(path, room))
+				enqueue(room, start, path, q);
 	}
 }
 
@@ -124,29 +93,21 @@ void	path_find(t_support *sup)
 	int		i;
 
 	i = -1;
-	while (++i < sup->farm->size)
-	{
-		room = *(t_lem**)ft_vat(sup->farm, i);
-		if (room->status == 1)
+	while (++i < sup->farm->size && (room = *(t_lem**)ft_vat(sup->farm, i)))
+		if (room->status == 1 && (q = ft_qnew(1000000, sizeof(t_vec*))))
 		{
 			paths = ft_vnew(sup->farm->size, sizeof(t_vec*));
-			q = ft_qnew(500000, sizeof(t_vec*));
 			bfs(room, paths, q);
-			break;
+			break ;
 		}
-	}
 	if (paths->size)
 	{
-			if (sup->opt.nomap == 0)
-				print_in(sup);
-			room->ants = sup->ants;
-//			ft_printf("\n#%d#\n", paths->size);
-			lem_in(sup, paths);
+		if (sup->opt.nomap == 0)
+			print_in(sup);
+		room->ants = sup->ants;
+		lem_in(sup, paths);
 	}
 	else
 		ft_printf("Error");
-//	have to find unintersecting ways
-//
-//	max_flow(paths);
 	clean_up(paths, q);
 }

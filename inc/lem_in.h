@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:49:13 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/25 22:57:23 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/26 04:00:33 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void			support_struct_init(t_support *sup);
 void			del_farm(t_support *sup);
 void			del_valid_arr(char **valid_arr);
 
-int				command_valid(char *str, t_support *sup);
+int				command_valid(char *str, t_support *sup, int i, int a);
 t_lem			*make_room(char *str, t_support *sup);
 t_lem			*make_important_room(int status, t_support *sup);
 void			tube_connect(t_lem *start, t_lem *end, t_support *sup);
@@ -98,12 +98,13 @@ void			path_find(t_support *sup);
 
 void			lem_in(t_support *sup, t_vec *paths);
 
-void			print_path(t_vec *path);
+void			print_in(t_support *sup);
 void			print_moves(t_vec *p, t_support *sup);
 
 int				visu_init(t_support *sup, t_visu *v);
 int				visu_move(t_support *sup, t_visu *v);
 void			print_rooms(t_support *sup, t_visu *v);
 void			print_lines(t_support *sup, t_visu *v);
+void			visu_free(t_support *sup, t_visu *v);
 
 #endif
