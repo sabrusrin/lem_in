@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/20 18:24:57 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/26 03:37:29 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/26 06:28:19 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ void	save_move(t_support *sup, t_vec *path, t_lem *room, int i[])
 	move->a[1] = prev->y;
 	move->b[0] = room->x;
 	move->b[1] = room->y;
-	move->delta[0] = (move->a[0] - move->b[0]) / 15;
-	move->delta[1] = (move->a[1] - move->b[1]) / 15;
+	move->delta[0] = (float)(move->a[0] - move->b[0]) / 25;
+	move->delta[1] = (float)(move->a[1] - move->b[1]) / 25;
 	ft_vpush_back(moves, &move, sizeof(t_move*));
 }
 

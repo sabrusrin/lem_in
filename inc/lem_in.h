@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:49:13 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/26 04:00:33 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/26 06:22:42 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ typedef struct	s_lines
 
 typedef struct	s_move
 {
-	int			a[2];
+	float		a[2];
 	int			b[2];
-	int			delta[2];
+	float		delta[2];
 }				t_move;
 
 typedef struct	s_opt

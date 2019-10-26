@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 20:20:32 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/26 04:35:50 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/26 06:28:21 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int		move_ants(t_support *sup, t_visu *v)
 		moves = *(t_vec**)ft_vat(sup->moves, i[0]);
 		usleep(400000);
 		i[1] = -1;
-		while (++i[1] < 15 && (i[2] = -1))
+		while (++i[1] < 25 && (i[2] = -1))
 		{
 			if (SDL_PollEvent(&v->event) && handle_event(v))
 				return (0);
