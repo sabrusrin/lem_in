@@ -6,7 +6,7 @@
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:34 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/26 03:05:20 by chermist         ###   ########.fr       */
+/*   Updated: 2019/10/26 04:33:41 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,8 @@ void	lem_in(t_support *sup, t_vec *paths)
 				flow = packs->pflow;
 			}
 		}
-	if (flow)
-		sup->moves = ft_vnew(flow, sizeof(t_vec*));
+	if (sup->opt.visu)
+		sup->moves = ft_vnew(30, sizeof(t_vec*));
 	if (packs && (packs = *(t_path**)ft_vat(flows, i[1])))
 		print_moves(packs->paths, sup);
 	clean_all(flows);
