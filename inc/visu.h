@@ -1,29 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vnew.c                                          :+:      :+:    :+:   */
+/*   visu.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/08 19:51:46 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/21 17:40:51 by chermist         ###   ########.fr       */
+/*   Created: 2019/10/22 15:23:04 by chermist          #+#    #+#             */
+/*   Updated: 2019/10/26 17:33:21 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vector.h"
+#ifndef VISU_H
+# define VISU_H
 
-t_vec	*ft_vnew(size_t size, size_t type_sz)
+# include <SDL.h>
+# include <SDL2_gfxPrimitives.h>
+# include <SDL_ttf.h>
+# include "lem_in.h"
+# include <stdlib.h>
+
+typedef struct		s_visu
 {
-	t_vec	*v;
+	int				radius;
+	int				d;
+	int				wh[2];
+	Uint32			clr[4];
+	SDL_Event		event;
+	SDL_Renderer	*rend;
+	SDL_Window		*win;
+	t_vec			*t_surf;
+	t_vec			*t_tex;
+	t_vec			*rect;
+	TTF_Font		*font;
+	SDL_Surface		*surface;
+}					t_visu;
 
-	v = NULL;
-	if (size && type_sz && (v = (t_vec*)malloc(sizeof(t_vec))))
-	{
-		v->type_sz = type_sz;
-		v->capacity = size;
-		v->size = 0;
-		if (!(v->data = malloc(size * type_sz)))
-			ft_memdel((void**)&v);
-	}
-	return (v);
-}
+#endif

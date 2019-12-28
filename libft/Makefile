@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lkarlon- <lkarlon-@student.42.fr>          +#+  +:+       +#+         #
+#    By: chermist <chermist@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/27 22:25:22 by chermist          #+#    #+#              #
-#    Updated: 2019/09/19 19:06:19 by chermist         ###   ########.fr        #
+#    Updated: 2019/10/11 18:29:10 by chermist         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,11 @@ PUT_F = ft_putchar.c \
 		ft_putchar_fd.c \
 		ft_putstr_fd.c \
 		ft_putendl_fd.c \
-		ft_putnbr_fd.c
+		ft_putnbr_fd.c \
+		l_ft_putchar.c \
+		l_ft_putstr.c \
+		l_ft_putnbr.c \
+		u_ft_putnbr.c
 
 LST_F =	ft_lstnew.c \
 		ft_lstdelone.c \
@@ -97,16 +101,28 @@ VEC_F = ft_vnew.c \
 Q_F   = ft_qnew.c \
 		ft_qpush.c \
 		ft_qpop.c \
+		ft_qat.c \
 		ft_qback.c \
 		ft_qfront.c \
 		ft_qempty.c \
 		ft_qfull.c \
-		ft_qsize.c
+		ft_qsize.c \
+		ft_qclear.c \
+		ft_qdel.c
 
 MY_F  = get_next_line.c
 
+PRINTF = ft_printf.c \
+		ft.c \
+		arg_exe.c \
+		assist.c \
+		flags_exe.c \
+		parse.c \
+		printf_cs.c \
+		printf_dfox.c
+
 SRCS =	$(MEM_F) $(STR_F) $(CHR_F) $(PUT_F) $(LST_F) \
-		$(MY_F) $(MATH_F) $(VEC_F) $(MY_F) $(Q_F)
+		$(MY_F) $(MATH_F) $(VEC_F) $(MY_F) $(Q_F) $(PRINTF)
 
 INC = -I./includes
 
@@ -122,23 +138,26 @@ vpath %.c myfunc
 vpath %.c math
 vpath %.c vector
 vpath %.c queue
+vpath %.c ft_printf
+vpath %.c ft_printf/support
 
 FLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-		ar rc $(NAME) $(OBJ)
-		ranlib $(NAME)
+		@ar rc $(NAME) $(OBJ)
+		@ranlib $(NAME)
+		@echo "\033[1;32mlibft.a was built\033[0m"
 
 %.o: %.c
-	gcc $(FLAGS) $(INC) -c $< -o $@
+	@gcc $(FLAGS) $(INC) -c $< -o $@
 
 
 clean:
-		rm -f $(OBJ)
+		@rm -f $(OBJ)
 
 fclean: clean
-		rm -f $(NAME)
+		@rm -f $(NAME)
 
 re: fclean all

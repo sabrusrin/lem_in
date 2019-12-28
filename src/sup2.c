@@ -1,29 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vnew.c                                          :+:      :+:    :+:   */
+/*   sup2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/08 19:51:46 by chermist          #+#    #+#             */
-/*   Updated: 2019/10/21 17:40:51 by chermist         ###   ########.fr       */
+/*   Created: 2019/10/26 12:24:14 by chermist          #+#    #+#             */
+/*   Updated: 2019/10/26 12:31:54 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vector.h"
+#include "lem_in.h"
 
-t_vec	*ft_vnew(size_t size, size_t type_sz)
+int		check_weight(t_vec *paths, t_vec *path, int j, int ants)
 {
-	t_vec	*v;
+	t_vec	*p;
+	int		flow;
+	int		pflow;
+	int		minf;
+	int		i;
 
-	v = NULL;
-	if (size && type_sz && (v = (t_vec*)malloc(sizeof(t_vec))))
+	minf = 0;
+	i = -1;
+	flow = 0;
+	while (++i <= j)
 	{
-		v->type_sz = type_sz;
-		v->capacity = size;
-		v->size = 0;
-		if (!(v->data = malloc(size * type_sz)))
-			ft_memdel((void**)&v);
+		p = *(t_vec**)ft_vat(paths, i);
+		flow += p->size - 1;
+		i++;
+		pflow = ((flow - i) + (ants - i)) / i;
+		i--;
+		if (!minf || (minf > pflow))
+			minf = pflow;
+		if (pflow > minf && p == path)
+		{
+			return (0);
+		}
 	}
-	return (v);
+	return (1);
 }

@@ -3,66 +3,82 @@
 /*                                                        :::      ::::::::   */
 /*   algo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkarlon- <lkarlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 16:48:29 by chermist          #+#    #+#             */
-/*   Updated: 2019/09/20 20:06:13 by chermist         ###   ########.fr       */
+/*   Updated: 2019/11/03 18:12:58 by lkarlon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-#include "stdio.h"
 
-void	print_path(t_vec *path)
+void	clean_up(t_vec *paths, t_queue *q)
 {
-	int	i;
-	t_lem *tmp;
+	t_vec	*tmp;
+	size_t	i;
+
+	i = 0;
+	if (q)
+	{
+		while (i < q->capacity)
+		{
+			tmp = *(t_vec**)ft_qat(q, i++);
+			if (tmp)
+				ft_vdel(&tmp);
+		}
+		ft_qdel(&q);
+	}
+	if (paths)
+		ft_vdel(&paths);
+}
+
+int		check_path(t_vec *path, t_lem *room)
+{
+	int i;
 
 	i = -1;
-	while (++i < path->size)
-	{
-		tmp = *(t_lem**)ft_vat(path, i);
-		printf("%s>>", tmp->name);
-	}
-	printf("\n");
+	while (++i < (int)path->size)
+		if (room == *(t_lem**)ft_vat(path, i))
+			return (0);
+	return (1);
+}
+
+void	enqueue(t_lem *room, t_lem *start, t_vec *path, t_queue *q)
+{
+	t_vec *newpath;
+
+	if (room->mark == 0 || room->mark > start->mark + 1)
+		room->mark = start->mark + 1;
+	newpath = ft_vdup(path);
+	ft_vpush_back(newpath, &room, sizeof(t_lem*));
+	ft_qpush(q, &newpath);
 }
 
 void	bfs(t_lem *start, t_vec *paths, t_queue *q)
 {
 	t_vec	*path;
-	t_vec	*newpath;
 	t_lem	*room;
 	int		i;
 
 	path = ft_vnew(5, sizeof(t_lem*));
 	ft_vpush_back(path, &start, sizeof(t_lem*));
 	ft_qpush(q, &path);
-	while (!ft_qempty(q))
+	while (!ft_qempty(q) && (path = *(t_vec**)ft_qpop(q)))
 	{
-		path = *(t_vec**)ft_qpop(q);
-		start = *(t_lem**)ft_vback(path);
-//		printf("\n[%s]->", start->name);
-//		if (start->link == start->tubes->size)
-			start->mark = BLACK;
-//		start->link++;
-		if (start->room_status == 2)
+		if ((start = *(t_lem**)ft_vback(path)) && start->status == 2)
 		{
 			ft_vpush_back(paths, &path, sizeof(t_vec*));
-			print_path(path);
+			if (paths->size > 500)
+				break ;
+			continue;
 		}
 		i = -1;
-		while (++i < start->tubes->size)
-		{
-			room = *(t_lem**)ft_vat(start->tubes, i);
-			if (room->mark != BLACK || room->room_status == 2)
-			{
-//			printf("|%s|\n", room->name);
-				newpath = ft_vdup(path);
-				ft_vpush_back(newpath, &room, sizeof(t_lem*));		
-				ft_qpush(q, &newpath);// problem is here, for some reason newpath being pushed incorrectly
-				room->mark = GRAY;
-			}
-		}
+		while (++i < (int)start->tubes->size &&
+			(room = *(t_lem**)ft_vat(start->tubes, i)))
+			if ((room->mark == 0 || room->mark >= start->mark
+					|| start->tubes->size == 1 || room->status == 2)
+					&& check_path(path, room))
+				enqueue(room, start, path, q);
 	}
 }
 
@@ -74,15 +90,23 @@ void	path_find(t_support *sup)
 	int		i;
 
 	i = -1;
-	while (++i < sup->farm->size)
-	{
-		room = *(t_lem**)ft_vat(sup->farm, i);
-		if (room->room_status == 1)
+	paths = NULL;
+	while (++i < (int)sup->farm->size &&
+		(room = *(t_lem**)ft_vat(sup->farm, i)))
+		if (room->status == 1 && (q = ft_qnew(1000000, sizeof(t_vec*))))
 		{
 			paths = ft_vnew(sup->farm->size, sizeof(t_vec*));
-			q = ft_qnew(sup->farm->size * 2, sizeof(t_vec*));
 			bfs(room, paths, q);
-			break;
+			break ;
 		}
+	if (paths->size)
+	{
+		if (sup->opt.nomap == 0)
+			print_in(sup);
+		room->ants = sup->ants;
+		lem_in(sup, paths);
 	}
+	else
+		ft_putstr("ERROR\n");
+	clean_up(paths, q);
 }

@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_qpush.c                                         :+:      :+:    :+:   */
+/*   ft.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: chermist <chermist@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/18 23:15:12 by chermist          #+#    #+#             */
-/*   Updated: 2019/09/20 17:17:11 by chermist         ###   ########.fr       */
+/*   Created: 2019/02/04 18:21:50 by chermist          #+#    #+#             */
+/*   Updated: 2019/10/11 00:13:04 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "queue.h"
-#include <stdio.h>
+#include "ft_printf.h"
 
-void	ft_qpush(t_queue *q, void *item)
+int		count_utf_bytes(int c)
 {
-	if (ft_qfull(q))
-		return ;
-	q->rear = (q->rear + 1) % q->capacity;
-	ft_memmove((void*)&q->data[q->rear * q->type_sz],
-			item, q->type_sz);
-	q->elems += 1;
-	q->size += 1;
+	if (c < 256)
+		return (1);
+	else if (c < 2048)
+		return (2);
+	else if (c < 65536)
+		return (3);
+	else if (c < 2097152)
+		return (4);
+	return (0);
 }

@@ -20,6 +20,7 @@ t_queue	*ft_qnew(size_t capacity, size_t type_sz)
 	{
 		queue->capacity = capacity;
 		queue->type_sz = type_sz;
+		queue->elems = 0;
 		queue->size = 0;
 		queue->front = 0;
 		queue->rear = capacity - 1;

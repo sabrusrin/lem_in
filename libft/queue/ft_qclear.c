@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_qpush.c                                         :+:      :+:    :+:   */
+/*   ft_qclear.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chermist <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: chermist <chermist@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/18 23:15:12 by chermist          #+#    #+#             */
-/*   Updated: 2019/09/20 17:17:11 by chermist         ###   ########.fr       */
+/*   Created: 2019/10/01 01:50:04 by chermist          #+#    #+#             */
+/*   Updated: 2019/10/11 00:22:22 by chermist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "queue.h"
-#include <stdio.h>
 
-void	ft_qpush(t_queue *q, void *item)
+void	ft_qclear(t_queue *q)
 {
-	if (ft_qfull(q))
-		return ;
-	q->rear = (q->rear + 1) % q->capacity;
-	ft_memmove((void*)&q->data[q->rear * q->type_sz],
-			item, q->type_sz);
-	q->elems += 1;
-	q->size += 1;
+	if (q)
+	{
+		if (q->data)
+			ft_memdel(&q->data);
+		q->elems = 0;
+		q->size = 0;
+		q->front = 0;
+		q->rear = q->capacity - 1;
+	}
 }

@@ -3,34 +3,41 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lkarlon- <lkarlon-@student.42.fr>          +#+  +:+       +#+         #
+#    By: chermist <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/04 18:07:03 by chermist          #+#    #+#              #
-#    Updated: 2019/09/20 02:11:49 by chermist         ###   ########.fr        #
+#    Updated: 2019/10/26 12:55:27 by chermist         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = lem-in
 
-CC = gcc
+CC = gcc `sdl2-config --cflags`
 
-INCDIR = -I libft/includes -I inc
+INCDIR = -I libft/includes -I ./inc
 
-LIBDIR = -L libft
+LIBDIR = -L ./libft `sdl2-config --libs` -lSDL2_gfx -lSDL2_ttf -lm
+
+OBJDIR = ./obj
 
 LIBNAME = libft/libft.a
 
 LIB = -lft
 
-CFLAGS = -g $(INCDIR)
+CFLAGS = -Wall -Werror -Wextra $(INCDIR)
 
-SRCDIR = src
+SRCDIR = ./src
 
 SRC = 	main.c \
 		support.c \
 		parse.c \
-	  	algo.c
-#	  lem_in.c \
+	  	algo.c \
+		lem_in.c \
+		moves.c \
+		visu_init.c \
+		visu_move.c \
+		visu_free.c \
+		sup2.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -38,23 +45,32 @@ vpath %.c $(SRCDIR)
 
 all: DEPS $(NAME)
 
-$(NAME): $(OBJ) $(LIBNAME)
-	$(CC) $(CFLAGS) $(INCDIR) $(LIBDIR) $(LIB) $(OBJ) -o $@
+$(NAME):  $(OBJ) $(LIBNAME)
+	@echo "\033[35mCompiling ./lem-in\033[0m"
+	@$(CC) $(CFLAGS) $(LIBDIR) $(LIB) $(OBJ) -o $@
+	@echo "\033[1;32m./lem-in was built\033[0m"
 
 DEPS:
-	make -C libft/
+	@make -C libft/
 
 $(LIBNAME):
-	make -C libft/
+	@make -C libft/
 
 %.o: %.c %.h
 
 clean:
-	make -C libft $@
-	rm -f $(OBJ)
+	@make -C libft $@
+	@rm -f $(OBJ)
+	@echo "\033[3;36mProject cleaned\033[0m"
 
 fclean: clean
-	make -C libft $@
-	rm -f $(NAME)
+	@make -C libft $@
+	@ rm -f $(NAME)
+	@echo "\033[3;36mProject fully cleaned\033[0m"
 
 re: fclean all
+
+norm:
+	@norminette src/*
+
+.PHONY: all clean fclean re norm
